@@ -14,5 +14,4 @@ public class Comic {
 	private UUID id;
 	@Column
 	private String name;
-
 }

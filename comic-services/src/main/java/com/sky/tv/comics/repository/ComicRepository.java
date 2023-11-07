@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface ComicRepository extends JpaRepository<Comic, UUID> {
-
+	public static final String RESOURCE = "Comic";
 }

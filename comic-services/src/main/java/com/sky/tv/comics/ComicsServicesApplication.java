@@ -1,5 +1,6 @@
 package com.sky.tv.comics;
 
+import com.sky.tv.comics.dto.ComicDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,8 +14,9 @@ public class ComicsServicesApplication {
 	}
 
 	@Bean
-	public ModelMapper modelMapper() {
+	public ModelMapper modelMapper() { //maybe we don't use that way
 		return new ModelMapper();
 	}
+
 
 }
