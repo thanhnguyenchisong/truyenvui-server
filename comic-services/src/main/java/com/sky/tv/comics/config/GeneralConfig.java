@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GeneralConfig {
 
-	@Value("max.thread:10")
-	private Integer maxThead;
+	@Value("${max.thread:10}")
+	private Integer maxThread;
 }
