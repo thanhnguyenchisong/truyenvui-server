@@ -18,3 +18,10 @@ The following guides illustrate how to use some features concretely:
 
 * [Service Registration and Discovery with Eureka and Spring Cloud](https://spring.io/guides/gs/service-registration-and-discovery/)
 
+### CREATE A SERVICE REGISTRY
+- Add @EnnableEurekaService anotation
+- Disable Eureka Server as Eureka Client in config
+- Lunch
+- Registering your service as Eureka Client
+- Multiple Instances of your service
+
