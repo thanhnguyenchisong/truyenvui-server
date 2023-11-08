@@ -6,6 +6,8 @@ import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.repository.ComicRepository;
 import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -41,13 +43,21 @@ public class ComicService {
 		return AutoComicMapper.MAPPER.mapToUserDto(comic);
 	}
 
-	public void getTranslators(UUID id) {
+	@CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultEmployee")
+	@Retry(name =  "${spring.application.name}", fallbackMethod ="getDefaultEmployee")
+	public String getTranslators(UUID id) {
 		Object translator = webClient.get()
 				.uri("http://localhost:8080/employeee/"+id)
 				.retrieve()
 				.bodyToMono(Object.class)
 				.block();
 
-		employeeFeignClient.getEmployee(id);
+//		employeeFeignClient.getEmployee(id);
+		return "thanh";
+	}
+
+	public String getDefaultEmployee(UUID id, Throwable e) {
+		//which you would like to do in the fallback case.
+		return "thanh fallback";
 	}
 }
