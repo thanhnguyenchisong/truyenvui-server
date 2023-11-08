@@ -91,7 +91,7 @@ is not good idea.
 
 `Solution`: Message Broker to talk all instances refresh configuration.
 
-=> **Spring Cloud Bus**
+=> **Spring Cloud Bus** TODO Read more on other benefit of Spring Cloud Bus
 `Role`
 Provide /busrefresh actuator endpoint - we just call that for refresh config all instances.
 
@@ -101,7 +101,7 @@ Provide /busrefresh actuator endpoint - we just call that for refresh config all
 - config RabbitMQ in your services
 - Test by change the config and call /busrefresh
 
-All the service which have spring cloud bus will aware of changing and refresh the config
+All the service which have spring cloud bus will be aware of changing and refresh the config
 
 ### 4. Distributer tracing
 Identify the complete call hierarchy from start ton end.
