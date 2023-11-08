@@ -5,8 +5,6 @@ import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.service.ComicService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -73,4 +71,5 @@ public class ComicController {
 	public ResponseEntity<String> update(@RequestBody @Valid List<ComicDTO> comicDTO) {
 		return null;
 	}
+
 }

@@ -16,5 +16,14 @@ ms1 call to ms2 but ms2 is down, so ms1 continue call to ms2 so that's not good 
 we have limit the number of calls to the Microservice two whenever this Microservice two is down
 
 ### 4. Service Registry
-ms1 have multiple instances ins1 and ins2. Some reason ins2 is down, so we need the mechanism to keep track of all 
-these microservices and its instances so that
+- Service Registry and Discovery is important role because we most likely run multiple instances of services and we 
+need a mechanism to call other serivice without hardcoding their hostname or port number
+- Cloud environment service instances may come up and go down anytime. So we need some automatic service 
+  registration and discovery mechanism - track all microservice and it's instances so we can use it to see what 
+  microservices are up and down.
+
+=> Spring Cloud Netflix Eureka
+
+
+### 5. Distributer tracing
+Identify the complete call hierarchy from start ton end.
