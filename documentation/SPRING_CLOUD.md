@@ -138,15 +138,28 @@ then ms3 down => ms2 down => ms1 down. So ms4 down infect other microservices as
 **Reference**: https://resilience4j.readme.io/docs/getting-started-6 and https://spring.io/projects/spring-cloud-circuitbreaker
 
 ### 5. Distribute tracing
-`Motivation` How can we tracing full follow of request and all instance information as logging.
-
-`Solution`
-- Collect all information
+`Motivation` How can we trace full follow cross multiple microservices and instances.
+`Version`: Sleuth <= v3.1, >3.1.0 we use Micrometer
+`Solution`:
+- There is one ID across complete request and span.
 `Role`
+- Sleuth/Micrometer for distributed tracing - that easy way to have `App name`, `Trace Id`, `Span id`
+- Zipkin to visualize trace information through UI
+`Technical for Micrometer`
+- Add libs micrometer
+- Configure your service
+- Default your report lib will send the traces information to Zipkin localhost:9411, you can config that if don't 
+  use default value
 
-`Technical`
-- Add libs sleuth and sleuth-zipkin
+`Techinical for Zipkin`
+- Build Spring Boot app run as Zipkin server
+  - Add Zipkin lib, enable zipkin in your Spring App
+- Build Zipkin server as container
+  - Use Zipkin image and start by docker.
 
+`What way should go for Zipkin` : If you would like to save time and suitable for developer who don't know about Op 
+job you can go with first one. Other case should go with a container because Zipkin server is implemented one time 
+and no need to change in future and also would like to separate Job bw 2 different teams.
 
 ### 6. Sumarize steps to create a microservice
 - Create Service by Spring boot

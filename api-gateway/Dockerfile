@@ -6,7 +6,7 @@ LABEL mentainer="thanhnguyenchisong@gmail.com"
 
 WORKDIR /app
 
-COPY ./target/comic-service-*.jar app/comic-service.jar
+COPY ./target/api-gateway-*.jar app/api-gateway.jar
 
-ENTRYPOINT["java", "-jar", "comic-service.jar"]
+ENTRYPOINT["java", "-jar", "api-gateway.jar"]
 

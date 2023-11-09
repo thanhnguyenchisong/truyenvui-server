@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  service-registry:
+    build:
+
+    container_name: service-registry
+    hostname: service-registry
+    ports:
+      - 8761:8761
+  comic-service-mysqldb:
+    container_name: comic-service-mysqldb
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root,
+      MYSQL_DATABASE: comicdb
+    networks:
+      - comic-network
+volumes:
+  data:
+networks:
+  comic-network:
+    name: comic-network

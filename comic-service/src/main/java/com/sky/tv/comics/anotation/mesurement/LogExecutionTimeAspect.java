@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-@Slf4j
+//@Slf4j
 @Aspect
 @Component
 public class LogExecutionTimeAspect {
@@ -15,7 +15,7 @@ public class LogExecutionTimeAspect {
 		long start = System.currentTimeMillis();
 		Object proceed = joinPoint.proceed();
 		long executionTime = System.currentTimeMillis() - start;
-		log.info(joinPoint.getSignature() + " executed in " + executionTime + "ms");
+//		log.info(joinPoint.getSignature() + " executed in " + executionTime + "ms");
 		return proceed;
 	}
 }
