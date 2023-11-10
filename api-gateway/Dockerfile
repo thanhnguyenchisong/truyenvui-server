@@ -6,7 +6,8 @@ LABEL mentainer="thanhnguyenchisong@gmail.com"
 
 WORKDIR /app
 
-COPY ./target/api-gateway-*.jar app/api-gateway.jar
+COPY --chown=1001:0 target/api-gateway-*.jar api-gateway.jar
 
-ENTRYPOINT["java", "-jar", "api-gateway.jar"]
+EXPOSE 8888
 
+ENTRYPOINT ["java", "-jar", "api-gateway.jar"]

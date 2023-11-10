@@ -25,3 +25,11 @@ The following guides illustrate how to use some features concretely:
 - Registering your service as Eureka Client
 - Multiple Instances of your service
 
+### Deployment
+1. Build the image
+
+`docker build -t service-registry:1.0 .`
+2. Run container
+
+`docker run -d --hostname=service-registry --network=comic-network -p 8886:8886 --name=service-registry service-registry:1.0`
+

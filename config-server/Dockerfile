@@ -6,7 +6,6 @@ LABEL mentainer="thanhnguyenchisong@gmail.com"
 
 WORKDIR /app
 
-COPY ./target/config-server-*.jar app/config-server.jar
+COPY --chown=1001:0 target/config-server-*.jar config-server.jar
 
-ENTRYPOINT["java", "-jar", "config-server.jar"]
-
+ENTRYPOINT ["java", "-jar", "config-server.jar"]

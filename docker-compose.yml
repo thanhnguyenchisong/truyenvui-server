@@ -1,15 +1,44 @@
 version: "3.8"
 services:
+# Common services
   service-registry:
     build:
-
+      context: ./service-registry
+      dockerfile: Dockerfile
     container_name: service-registry
     hostname: service-registry
     ports:
-      - 8761:8761
+      - 8886:8886
+    networks:
+      - comic-network
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    hostname: config-server
+    networks:
+      - comic-network
+    depends_on:
+      - service-registry
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    hostname: api-gateway
+    ports:
+      - 8888:8888
+    networks:
+      - comic-network
+    depends_on:
+      - service-registry
+#  MySQL Database
   comic-service-mysqldb:
     container_name: comic-service-mysqldb
     image: mysql
+    volumes:
+      - /data
     ports:
       - 3306:3306
     environment:
@@ -19,6 +48,7 @@ services:
       - comic-network
 volumes:
   data:
+    name: /data
 networks:
   comic-network:
     name: comic-network
