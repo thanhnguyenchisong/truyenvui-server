@@ -31,6 +31,14 @@ The following guides illustrate how to use some features concretely:
 - /loggers: view and config the log level of your application at runtime
 - /shutdown: be used to gracefully shut down the application
 
+# Communication
+Spring provides 3 libs for communication bw service
+- RestTemplate : synch
+- WebClient : synch and asynch, that is a part of Webflux dependency
+  - Flux that is a standard Publisher that represents 0 to N synchronous sequence values
+  - Mono that is a standard Publisher that represents 0 to 1 synchronous sequence values
+- Cloud OpenFeign
+
 
 
 
