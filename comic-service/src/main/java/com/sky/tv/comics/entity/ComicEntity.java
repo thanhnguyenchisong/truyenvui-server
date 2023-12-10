@@ -6,12 +6,13 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.UUID;
 
 @MappedSuperclass
 @Data
 public class ComicEntity {
     @Id
-    private int id;
+    private UUID id;
     @Column(name = "create_time")
     private Date createTime;
     @Column(name = "update_time")
