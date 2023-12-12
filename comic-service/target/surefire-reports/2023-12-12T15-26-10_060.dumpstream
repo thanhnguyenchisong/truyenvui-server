@@ -1,5 +1,0 @@
-# Created at 2023-12-12T15:26:10.378
-Boot Manifest-JAR contains absolute paths in classpath 'D:\tech\truyenvui-server\comic-service\target\test-classes'
-Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-'other' has different root
-
