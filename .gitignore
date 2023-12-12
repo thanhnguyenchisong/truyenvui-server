@@ -5,5 +5,5 @@
 *.cmd
 service-registry/mvnw
 comic-service/mvnw
-service-registry/target/classes/application.properties
+*/target/*
 config-server/mvnw

@@ -28,24 +28,24 @@ public class ComicService {
 
     public ComicDTO getComic(UUID id) {
         Comic comic = comicRepository.findById(id)
-                                     .orElseThrow(() -> new ResourceNotFoundException(ComicRepository.RESOURCE,
-                                                                                      "id",
-                                                                                      id.toString()
-                                     ));
+                .orElseThrow(() -> new ResourceNotFoundException(ComicRepository.RESOURCE,
+                        "id",
+                        id.toString()
+                ));
         return AutoComicMapper.MAPPER.mapToComicDto(comic);
     }
 
-	public List<ComicDTO> getComics(List<UUID> ids) {
-		List<Comic> comics = comicRepository.findAllById(ids);
-		return comics.stream()
-								 .map(AutoComicMapper.MAPPER::mapToComicDto)
-								 .toList();
+    public List<ComicDTO> getComics(List<UUID> ids) {
+        List<Comic> comics = comicRepository.findAllById(ids);
+        return comics.stream()
+                .map(AutoComicMapper.MAPPER::mapToComicDto)
+                .toList();
     }
 
     public void createComics(@Valid List<ComicDTO> comicDTOs) {
         List<Comic> comics = comicDTOs.stream()
-																			.map(AutoComicMapper.MAPPER::mapToComic)
-																			.toList();
+                .map(AutoComicMapper.MAPPER::mapToComic)
+                .toList();
         comicRepository.saveAll(comics);
     }
 
@@ -56,8 +56,8 @@ public class ComicService {
             throw new ComicBusinessException("Can't find out the entity with your DTOs");
         }
         List<Comic> comicsFromDTO = comicDTOs.stream()
-																						 .map(AutoComicMapper.MAPPER::mapToComic)
-																						 .toList();
+                .map(AutoComicMapper.MAPPER::mapToComic)
+                .toList();
         comicRepository.saveAll(comicsFromDTO);
     }
 
