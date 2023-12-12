@@ -1,0 +1,9 @@
+
+*/.idea/*
+*/.mvn/*
+.idea/*
+*.cmd
+service-registry/mvnw
+comic-service/mvnw
+service-registry/target/classes/application.properties
+config-server/mvnw

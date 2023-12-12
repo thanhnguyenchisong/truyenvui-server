@@ -2,12 +2,13 @@ package com.sky.tv.comics.controller;
 
 import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.entity.Comic;
+import com.sky.tv.comics.exception.ComicBusinessException;
 import com.sky.tv.comics.service.ComicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,8 @@ public class ComicController {
 			description = "HTTP Status 200 OK"
 	)
 	@PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Comic>> get(@RequestBody List<String> ids) {
-		return null;
+	public ResponseEntity<List<ComicDTO>> get(@RequestBody List<UUID> ids) {
+		 return ResponseEntity.status(HttpStatus.OK).body(comicService.getComics(ids));
 	}
 
 	@Operation(
@@ -55,7 +56,7 @@ public class ComicController {
 	)
 	@PostMapping(value = "create", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {
-		comicService.createComic(comicDTOs);
+		comicService.createComics(comicDTOs);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
 	}
 
@@ -68,8 +69,9 @@ public class ComicController {
 			description = "HTTP Status 200 OK"
 	)
 	@PostMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> update(@RequestBody @Valid List<ComicDTO> comicDTO) {
-		return null;
+	public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
+		comicService.updateComics(comicDTOs);
+		return ResponseEntity.status(HttpStatus.OK).body(ResponseDefault.UPDATED);
 	}
 
 }

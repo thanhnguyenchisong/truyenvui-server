@@ -18,7 +18,7 @@ public interface AutoComicMapper {
 
 	AutoComicMapper MAPPER = Mappers.getMapper(AutoComicMapper.class);
 
-	ComicDTO mapToUserDto(Comic comic);
+	ComicDTO mapToComicDto(Comic comic);
 
 	Comic mapToComic(ComicDTO comicDTO);
 }

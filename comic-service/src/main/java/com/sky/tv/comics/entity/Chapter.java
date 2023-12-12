@@ -15,6 +15,8 @@ public class Chapter extends ComicEntity {
     private String numberRead;
     @Column(name = "content_src")
     private String contentSrc;
+    @Column(name = "available_chap_number")
+    private Integer availableChapNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "r_comic")
     private Comic comic;

@@ -39,6 +39,8 @@ Spring provides 3 libs for communication bw service
   - Mono that is a standard Publisher that represents 0 to 1 synchronous sequence values
 - Cloud OpenFeign
 
+# DB setup
+docker run --name comic-service-mysql -p 3306:3306 -v data/comic-service-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=comic-service -d mysql:8.2.0
 
 
 

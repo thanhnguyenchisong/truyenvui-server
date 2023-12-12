@@ -24,6 +24,8 @@ public class Comic extends ComicEntity {
 	private int numberRead;
 	@Enumerated(EnumType.STRING)
 	private ProcessEnum status;
+	@Enumerated(EnumType.STRING)
+	private SourceEnum source;
 
 	@OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Chapter> chapters;

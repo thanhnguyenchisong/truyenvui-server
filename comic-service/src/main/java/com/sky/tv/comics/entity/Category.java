@@ -15,7 +15,7 @@ public class Category extends ComicEntity{
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "r_comic_type",
+            name = "r_comic_category",
             joinColumns = @JoinColumn(name = "r_category"),
             inverseJoinColumns = @JoinColumn(name = "r_comic"))
     private Set<Comic> comics;
