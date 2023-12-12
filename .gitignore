@@ -1,9 +1,6 @@
 
-*/.idea/*
 */.mvn/*
 .idea/*
 *.cmd
-service-registry/mvnw
-comic-service/mvnw
+*/mvnw
 */target/*
-config-server/mvnw
