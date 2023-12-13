@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.UUID;
 
-public interface ComicRepository extends JpaRepository<Comic, UUID>, PagingAndSortingRepository<Comic, UUID> {
+public interface ComicRepo extends JpaRepository<Comic, UUID>, PagingAndSortingRepository<Comic, UUID> {
 	String RESOURCE = "Comic";
 }

@@ -4,14 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.UUID;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Schema(
 		description = "ComicDTO Model Information"
 )
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ComicDTO {
-	@NotEmpty(message = "Should not be null or empty")
-	private UUID id;
+public class ComicDTO extends BaseDTO {
 
 	@Schema(
 			description = "Comic name"

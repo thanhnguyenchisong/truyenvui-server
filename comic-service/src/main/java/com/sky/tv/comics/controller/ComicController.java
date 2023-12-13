@@ -43,7 +43,7 @@ public class ComicController {
 	)
 	@PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ComicDTO>> get(@RequestBody List<UUID> ids) {
-		 return ResponseEntity.status(HttpStatus.OK).body(comicService.getComics(ids));
+		 return ResponseEntity.status(HttpStatus.OK).body(comicService.get(ids));
 	}
 
 	@Operation(
@@ -56,7 +56,7 @@ public class ComicController {
 	)
 	@PostMapping(value = "create", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {
-		comicService.createComics(comicDTOs);
+		comicService.create(comicDTOs);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
 	}
 
@@ -70,7 +70,7 @@ public class ComicController {
 	)
 	@PostMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
-		comicService.updateComics(comicDTOs);
+		comicService.update(comicDTOs);
 		return ResponseEntity.status(HttpStatus.OK).body(ResponseDefault.UPDATED);
 	}
 

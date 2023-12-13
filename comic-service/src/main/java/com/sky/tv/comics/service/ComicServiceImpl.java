@@ -1,11 +1,12 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
+import com.sky.tv.comics.dto.paging.PagingResponse;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.exception.ComicBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
-import com.sky.tv.comics.repository.ComicRepository;
+import com.sky.tv.comics.repository.ComicRepo;
 import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,39 +18,42 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@@Service
-public class ComicServiceImpl {
+@Service
+public class ComicServiceImpl implements ComicService ,BaseService<ComicDTO> {
 
-    private final ComicRepository comicRepository;
+    private final ComicRepo comicRepository;
 
     private final WebClient webClient;
 
     private final EmployeeFeignClient employeeFeignClient;
 
-    public ComicDTO getComic(UUID id) {
+    @Override
+    public ComicDTO get(UUID id) {
         Comic comic = comicRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ComicRepository.RESOURCE,
+                .orElseThrow(() -> new ResourceNotFoundException(ComicRepo.RESOURCE,
                         "id",
                         id.toString()
                 ));
         return AutoComicMapper.MAPPER.mapToComicDto(comic);
     }
 
-    public List<ComicDTO> getComics(List<UUID> ids) {
+    public List<ComicDTO> get(List<UUID> ids) {
         List<Comic> comics = comicRepository.findAllById(ids);
         return comics.stream()
                 .map(AutoComicMapper.MAPPER::mapToComicDto)
                 .toList();
     }
 
-    public void createComics(@Valid List<ComicDTO> comicDTOs) {
+    @Override
+    public void create(@Valid List<ComicDTO> comicDTOs) {
         List<Comic> comics = comicDTOs.stream()
                 .map(AutoComicMapper.MAPPER::mapToComic)
                 .toList();
         comicRepository.saveAll(comics);
     }
 
-    public void updateComics(@Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
+    @Override
+    public void update(@Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
         List<UUID> ids = comicDTOs.stream().map(ComicDTO::getId).collect(Collectors.toList());
         List<Comic> comics = comicRepository.findAllById(ids);
         if (comics.size() != ids.size()) {
@@ -61,7 +65,63 @@ public class ComicServiceImpl {
         comicRepository.saveAll(comicsFromDTO);
     }
 
-    public List<ComicDTO> getComicPaging(int pageNumber, int sizeAPage) {
+    @Override
+    public List<ComicDTO> getSuggestionComics(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getSuggestionComics(int numberOfComic, List<String> categoryName) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getTopComicByViewWeek(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getTopComicByLikeWeek(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getRandomComicNew(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getRandomLoveComic(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getRandomAdventureComic(int comicOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getEasternComic(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public List<ComicDTO> getRandomComic(int numberOfComic) {
+        return null;
+    }
+
+    @Override
+    public PagingResponse<ComicDTO> getComicByCategories(int pageNumber, int pageSize, List<String> categories) {
+        return null;
+    }
+
+    @Override
+    public PagingResponse<ComicDTO> getComicByCategory(int pageNumber, int pageSize, String category) {
+        return null;
+    }
+
+    @Override
+    public PagingResponse<ComicDTO> getComics(int pageNumber, int pageSize) {
         return null;
     }
 

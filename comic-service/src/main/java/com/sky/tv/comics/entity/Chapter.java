@@ -11,12 +11,12 @@ import lombok.EqualsAndHashCode;
 public class Chapter extends ComicEntity {
     private int number;
     private String name;
-    @Column(name = "number_read")
-    private String numberRead;
-    @Column(name = "content_src")
-    private String contentSrc;
-    @Column(name = "available_chap_number")
-    private Integer availableChapNumber;
+    @Column(name = "view_number")
+    private int viewNumber;
+    @Column(name = "avatar_src")
+    private String avatar_src;
+    @Column(name = "photo_number")
+    private int photoNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "r_comic")
     private Comic comic;

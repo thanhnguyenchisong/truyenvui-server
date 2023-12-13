@@ -2,12 +2,10 @@ package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.paging.PagingResponse;
-import com.sky.tv.comics.dto.response.ComicCategoryDTO;
-import com.sky.tv.comics.entity.Category;
 
 import java.util.List;
 
-public interface ComicService {
+public interface ComicService extends BaseService<ComicDTO> {
     /**
      * get n suggestion comics based on view by day
      * @param numberOfComic
@@ -84,4 +82,5 @@ public interface ComicService {
      * @return
      */
     PagingResponse<ComicDTO> getComics(int pageNumber, int pageSize);
+
 }
