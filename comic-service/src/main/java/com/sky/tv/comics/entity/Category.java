@@ -9,8 +9,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_category")
-public class Category extends ComicEntity{
-    private String name;
+public class Category extends ComicEntity {
+    private CategoryEnum name;
     private String description;
 
     @ManyToMany(fetch = FetchType.LAZY)

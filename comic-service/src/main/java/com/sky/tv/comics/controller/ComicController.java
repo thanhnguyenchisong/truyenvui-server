@@ -3,7 +3,7 @@ package com.sky.tv.comics.controller;
 import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.exception.ComicBusinessException;
-import com.sky.tv.comics.service.ComicService;
+import com.sky.tv.comics.service.ComicServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping("comic")
 public class ComicController {
 
-	private final ComicService comicService;
+	private final ComicServiceImpl comicService;
 
 	@Operation(
 			summary = "Get Comics REST API",

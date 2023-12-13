@@ -1,81 +1,87 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.entity.Comic;
-import com.sky.tv.comics.exception.ComicBusinessException;
-import com.sky.tv.comics.exception.ResourceNotFoundException;
-import com.sky.tv.comics.mapper.AutoComicMapper;
-import com.sky.tv.comics.repository.ComicRepository;
-import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import com.sky.tv.comics.dto.paging.PagingResponse;
+import com.sky.tv.comics.dto.response.ComicCategoryDTO;
+import com.sky.tv.comics.entity.Category;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@Component
-public class ComicService {
+public interface ComicService {
+    /**
+     * get n suggestion comics based on view by day
+     * @param numberOfComic
+     * @return
+     */
+    List<ComicDTO> getSuggestionComics(int numberOfComic);
 
-    private final ComicRepository comicRepository;
+    List<ComicDTO> getSuggestionComics(int numberOfComic, List<String> categoryName);
 
-    private final WebClient webClient;
+    /**
+     * get top viewed comic in week
+     * @param numberOfComic
+     */
+    List<ComicDTO> getTopComicByViewWeek(int numberOfComic);
 
-    private final EmployeeFeignClient employeeFeignClient;
+    /**
+     * Get top liked comic in week
+     * @param numberOfComic
+     */
+    List<ComicDTO> getTopComicByLikeWeek(int numberOfComic);
 
-    public ComicDTO getComic(UUID id) {
-        Comic comic = comicRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ComicRepository.RESOURCE,
-                        "id",
-                        id.toString()
-                ));
-        return AutoComicMapper.MAPPER.mapToComicDto(comic);
-    }
+    /**
+     * Get random comic new
+     * @param numberOfComic
+     */
+    List<ComicDTO> getRandomComicNew(int numberOfComic);
 
-    public List<ComicDTO> getComics(List<UUID> ids) {
-        List<Comic> comics = comicRepository.findAllById(ids);
-        return comics.stream()
-                .map(AutoComicMapper.MAPPER::mapToComicDto)
-                .toList();
-    }
+    /**
+     * Get random some love comic
+     * @param numberOfComic
+     */
+    List<ComicDTO> getRandomLoveComic(int numberOfComic);
 
-    public void createComics(@Valid List<ComicDTO> comicDTOs) {
-        List<Comic> comics = comicDTOs.stream()
-                .map(AutoComicMapper.MAPPER::mapToComic)
-                .toList();
-        comicRepository.saveAll(comics);
-    }
+    /**
+     * Get random some adventure comic
+     * @param comicOfComic
+     */
+    List<ComicDTO> getRandomAdventureComic(int comicOfComic);
 
-    public void updateComics(@Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
-        List<UUID> ids = comicDTOs.stream().map(ComicDTO::getId).collect(Collectors.toList());
-        List<Comic> comics = comicRepository.findAllById(ids);
-        if (comics.size() != ids.size()) {
-            throw new ComicBusinessException("Can't find out the entity with your DTOs");
-        }
-        List<Comic> comicsFromDTO = comicDTOs.stream()
-                .map(AutoComicMapper.MAPPER::mapToComic)
-                .toList();
-        comicRepository.saveAll(comicsFromDTO);
-    }
+    /**
+     * Get randome some eastern comic
+     * @param numberOfComic
+     */
+    List<ComicDTO> getEasternComic(int numberOfComic);
 
-    //	@CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultEmployee")
-    //	@Retry(name =  "${spring.application.name}", fallbackMethod ="getDefaultEmployee")
-    //	public String getTranslators(UUID id) {
-    //		Object translator = webClient.get()
-    //				.uri("http://localhost:8080/employeee/"+id)
-    //				.retrieve()
-    //				.bodyToMono(Object.class)
-    //				.block();
-    //
-    ////		employeeFeignClient.getEmployee(id);
-    //		return "thanh";
-    //	}
+    /**
+     * Get random comics
+     * @param numberOfComic
+     */
+    List<ComicDTO> getRandomComic(int numberOfComic);
 
-    //	public String getDefaultEmployee(UUID id, Throwable e) {
-    //		//which you would like to do in the fallback case.
-    //		return "thanh fallback";
-    //	}
+    /**
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @param categories
+     * @return
+     */
+    PagingResponse<ComicDTO> getComicByCategories(int pageNumber, int pageSize, List<String> categories);
+
+    /**
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @param category
+     * @return
+     */
+    PagingResponse<ComicDTO> getComicByCategory(int pageNumber, int pageSize, String category);
+
+    /**
+     *
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    PagingResponse<ComicDTO> getComics(int pageNumber, int pageSize);
 }
