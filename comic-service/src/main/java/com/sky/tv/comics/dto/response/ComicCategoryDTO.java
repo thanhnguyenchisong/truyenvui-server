@@ -1,10 +1,10 @@
 package com.sky.tv.comics.dto.response;
 
-import com.sky.tv.comics.dto.ComicDTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ComicCategoryDTO extends ComicGroupDTO {
 
-public class ComicCategoryDTO {
-    String category;
-    List<ComicDTO> comics;
 }

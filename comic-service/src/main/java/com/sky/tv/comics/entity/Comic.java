@@ -1,34 +1,41 @@
 package com.sky.tv.comics.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "r_comic")
 public class Comic extends BaseEntity {
-	@Column
-	private String name;
-	@Column
-	private String image;
-	@Column
-	private String description;
-	@Column(name = "number_read")
-	private int numberRead;
-	@Enumerated(EnumType.STRING)
-	private ProcessEnum status;
-	@Enumerated(EnumType.STRING)
-	private SourceEnum source;
 
-	@OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Chapter> chapters;
+  @Column
+  private String name;
+  @Column
+  private String image;
+  @Column
+  private String description;
+  @Column(name = "number_read")
+  private int numberRead;
+  @Enumerated(EnumType.STRING)
+  private ProcessEnum status;
+  @Enumerated(EnumType.STRING)
+  private SourceEnum source;
 
-	@ManyToMany(mappedBy = "comics")
-	private Set<Category> categories;
+  @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<Chapter> chapters;
 
-	@OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<ComicAnalysis> comicAnalyses;
+  @ManyToMany(mappedBy = "comics")
+  private Set<Category> categories;
+
+  @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<ComicAnalysis> comicAnalyses;
 }

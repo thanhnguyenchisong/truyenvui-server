@@ -7,9 +7,10 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AutoCategoryMapper {
-    AutoCategoryMapper MAPPER = Mappers.getMapper(AutoCategoryMapper.class);
 
-    CategoryDTO mapToCategoryDTO(Category comic);
+  AutoCategoryMapper MAPPER = Mappers.getMapper(AutoCategoryMapper.class);
 
-    Category mapToCategory(CategoryDTO comicDTO);
+  CategoryDTO mapToCategoryDTO(Category comic);
+
+  Category mapToCategory(CategoryDTO comicDTO);
 }

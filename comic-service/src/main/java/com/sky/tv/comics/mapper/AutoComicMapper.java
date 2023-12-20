@@ -6,19 +6,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * That should have same field name for default
- * mapping. In the case different in field name
- * we have {@link org.mapstruct.Mapping} for that
- * method - with define source name and target
- * name. That will process with that annotation
- * configuration
+ * That should have same field name for default mapping. In the case different in field name we have
+ * {@link org.mapstruct.Mapping} for that method - with define source name and target name. That
+ * will process with that annotation configuration
  */
 @Mapper
 public interface AutoComicMapper {
 
-	AutoComicMapper MAPPER = Mappers.getMapper(AutoComicMapper.class);
+  AutoComicMapper MAPPER = Mappers.getMapper(AutoComicMapper.class);
 
-	ComicDTO mapToComicDto(Comic comic);
+  ComicDTO mapToComicDto(Comic comic);
 
-	Comic mapToComic(ComicDTO comicDTO);
+  Comic mapToComic(ComicDTO comicDTO);
 }

@@ -12,20 +12,21 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ComicAnalysis extends BaseEntity{
-    @Column(name = "number_read")
-    private int numberRead;
-    @Column(name = "number_like")
-    private int numberLike;
-    @Column(name = "start_time")
-    private Date startTime;
-    @Column(name = "end_time")
-    private Date endTime;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "r_comic")
-    private Comic comic;
-    @Column(name = "period_type")
-    @Enumerated(EnumType.STRING)
-    private String periodType;
+public class ComicAnalysis extends BaseEntity {
+
+  @Column(name = "number_read")
+  private int numberRead;
+  @Column(name = "number_like")
+  private int numberLike;
+  @Column(name = "start_time")
+  private Date startTime;
+  @Column(name = "end_time")
+  private Date endTime;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "r_comic")
+  private Comic comic;
+  @Column(name = "period_type")
+  @Enumerated(EnumType.STRING)
+  private String periodType;
 
 }

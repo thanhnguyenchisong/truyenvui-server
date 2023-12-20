@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum PrefixPathEnum {
-	COMIC("comic");
-	private String value;
+  COMIC("comic");
+  private String value;
 }

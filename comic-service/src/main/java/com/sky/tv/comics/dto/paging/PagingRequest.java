@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PagingRequest {
-    int pageNumber;
-    int size;
+
+  int pageNumber;
+  int size;
 }

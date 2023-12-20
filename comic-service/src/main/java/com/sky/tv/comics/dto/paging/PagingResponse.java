@@ -1,14 +1,14 @@
 package com.sky.tv.comics.dto.paging;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class PagingResponse<T> {
-    int pageNumber;
-    int pageSize;
-    int maxPage;
-    int contentSize;
-    List<T> content;
+
+  int pageNumber;
+  int pageSize;
+  int maxPage;
+  int contentSize;
+  List<T> content;
 }

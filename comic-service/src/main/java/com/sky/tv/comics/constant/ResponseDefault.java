@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ResponseDefault {
-	CREATED("Create successfully"),
-	UPDATED("Update successfully");
-	private String message;
+  CREATED("Create successfully"),
+  UPDATED("Update successfully");
+  private String message;
 }
