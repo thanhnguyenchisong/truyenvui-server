@@ -3,17 +3,13 @@ package com.sky.tv.comics.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.Id;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "r_comic")
-public class Comic extends ComicEntity {
+public class Comic extends BaseEntity {
 	@Column
 	private String name;
 	@Column
@@ -32,4 +28,7 @@ public class Comic extends ComicEntity {
 
 	@ManyToMany(mappedBy = "comics")
 	private Set<Category> categories;
+
+	@OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ComicAnalysis> comicAnalyses;
 }

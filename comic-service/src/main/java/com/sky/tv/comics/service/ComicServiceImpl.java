@@ -3,10 +3,12 @@ package com.sky.tv.comics.service;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.paging.PagingResponse;
 import com.sky.tv.comics.entity.Comic;
+import com.sky.tv.comics.entity.ComicAnalysis;
 import com.sky.tv.comics.exception.ComicBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.repository.ComicRepo;
+import com.sky.tv.comics.repository.ComicViewRepo;
 import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 public class ComicServiceImpl implements ComicService ,BaseService<ComicDTO> {
 
     private final ComicRepo comicRepository;
+
+    private final ComicViewRepo comicViewRepo;
 
     private final WebClient webClient;
 
@@ -63,21 +67,6 @@ public class ComicServiceImpl implements ComicService ,BaseService<ComicDTO> {
                 .map(AutoComicMapper.MAPPER::mapToComic)
                 .toList();
         comicRepository.saveAll(comicsFromDTO);
-    }
-
-    @Override
-    public List<ComicDTO> getSuggestionComics(int numberOfComic) {
-        return null;
-    }
-
-    @Override
-    public List<ComicDTO> getSuggestionComics(int numberOfComic, List<String> categoryName) {
-        return null;
-    }
-
-    @Override
-    public List<ComicDTO> getTopComicByViewWeek(int numberOfComic) {
-        return null;
     }
 
     @Override

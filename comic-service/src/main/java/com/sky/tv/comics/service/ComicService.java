@@ -6,26 +6,6 @@ import com.sky.tv.comics.dto.paging.PagingResponse;
 import java.util.List;
 
 public interface ComicService extends BaseService<ComicDTO> {
-    /**
-     * get n suggestion comics based on view by day
-     * @param numberOfComic
-     * @return
-     */
-    List<ComicDTO> getSuggestionComics(int numberOfComic);
-
-    List<ComicDTO> getSuggestionComics(int numberOfComic, List<String> categoryName);
-
-    /**
-     * get top viewed comic in week
-     * @param numberOfComic
-     */
-    List<ComicDTO> getTopComicByViewWeek(int numberOfComic);
-
-    /**
-     * Get top liked comic in week
-     * @param numberOfComic
-     */
-    List<ComicDTO> getTopComicByLikeWeek(int numberOfComic);
 
     /**
      * Get random comic new

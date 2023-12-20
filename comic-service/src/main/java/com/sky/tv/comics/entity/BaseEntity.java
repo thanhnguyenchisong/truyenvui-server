@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @MappedSuperclass
 @Data
-public class ComicEntity {
+public class BaseEntity {
     @Id
     private UUID id;
     @Column(name = "create_time")

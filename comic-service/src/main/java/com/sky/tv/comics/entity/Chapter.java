@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_chapter")
-public class Chapter extends ComicEntity {
+public class Chapter extends BaseEntity {
     private int number;
     private String name;
     @Column(name = "view_number")

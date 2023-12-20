@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class ChapterServiceImpl implements ChapterService {
     @Autowired
-    ChapterRepo chapterRepo;
+    private ChapterRepo chapterRepo;
 
     @Override
     public List<ChapterDTO> getAllChapter(UUID comicID) throws ComicBusinessException {

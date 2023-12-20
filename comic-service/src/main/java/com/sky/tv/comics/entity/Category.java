@@ -9,7 +9,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_category")
-public class Category extends ComicEntity {
+public class Category extends BaseEntity {
     private CategoryEnum name;
     private String description;
 
