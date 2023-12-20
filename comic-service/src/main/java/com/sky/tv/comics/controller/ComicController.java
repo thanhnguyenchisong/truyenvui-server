@@ -6,7 +6,10 @@ import com.sky.tv.comics.dto.paging.PagingResponse;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
 import com.sky.tv.comics.dto.response.ComicGroupDTO;
+import com.sky.tv.comics.entity.ComicAnalysis;
 import com.sky.tv.comics.exception.ComicBusinessException;
+import com.sky.tv.comics.service.ComicAnalysisService;
+import com.sky.tv.comics.service.ComicService;
 import com.sky.tv.comics.service.ComicServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("comic")
 public class ComicController {
 
-  private final ComicServiceImpl comicService;
+  private final ComicService comicService;
+  private final ComicAnalysisService comicAnalysisService;
 
   @Operation(
       summary = "Get Comics REST API",
@@ -92,6 +96,7 @@ public class ComicController {
   @GetMapping(value = "get/popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ComicGroupDTO> get(@QueryParam(value = "quality") int quality) {
+    comicService.getPopular(quality);
     return null;
   }
 

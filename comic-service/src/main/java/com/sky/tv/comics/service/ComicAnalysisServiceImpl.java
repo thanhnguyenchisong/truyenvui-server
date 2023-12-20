@@ -1,7 +1,7 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicAnalysisDTO;
-import com.sky.tv.comics.repository.ComicViewRepo;
+import com.sky.tv.comics.repository.ComicAnalysisRepo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ComicAnalysisServiceImpl implements ComicAnalysisService {
 
   @Autowired
-  private ComicViewRepo comicAnalysisRepo;
+  private ComicAnalysisRepo comicAnalysisRepo;
 
   @Override
   public List<ComicAnalysisDTO> getComicAnalysisByView(String startDate, String endDate,

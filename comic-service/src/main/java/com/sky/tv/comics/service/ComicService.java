@@ -2,9 +2,18 @@ package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.paging.PagingResponse;
+import java.text.ParseException;
 import java.util.List;
 
 public interface ComicService extends BaseService<ComicDTO> {
+
+  /**
+   *
+   * @param quality
+   * @return
+   */
+  List<ComicDTO> getPopular(int quality) throws ParseException;
+
 
   /**
    * @param pageNumber
