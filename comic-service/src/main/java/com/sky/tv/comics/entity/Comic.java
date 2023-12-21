@@ -36,7 +36,7 @@ public class Comic extends BaseEntity {
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Chapter> chapters;
 
-  @ManyToMany(mappedBy = "comics")
+  @ManyToMany(mappedBy = "comics", fetch = FetchType.LAZY)
   private Set<Category> categories;
 
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

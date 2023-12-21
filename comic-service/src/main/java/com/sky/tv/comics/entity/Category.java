@@ -25,5 +25,5 @@ public class Category extends BaseEntity {
   private Set<Comic> comics;
 
   @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-  private Set<Category> categories;
+  private Set<GroupComic> groupComics;
 }

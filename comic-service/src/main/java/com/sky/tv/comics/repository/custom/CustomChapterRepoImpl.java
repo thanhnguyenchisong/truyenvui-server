@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CustomChapterRepoImpl implements CustomChapterRepo {
 
-  @Autowired
-  private EntityManager entityManager;
+/*  @Autowired
+  private EntityManager entityManager;*/
 
   public List<Chapter> getAllChapterByComicId(UUID comicID) {
-    String formQuery = "SELECT c FROM Chapter c WHERE c.comic.id = %s";
+   /* String formQuery = "SELECT c FROM Chapter c WHERE c.comic.id = %s";
     String query = String.format(formQuery, comicID.toString());
     return entityManager.createQuery(query, Chapter.class).getResultList();
+*/
+    return null;
   }
 }

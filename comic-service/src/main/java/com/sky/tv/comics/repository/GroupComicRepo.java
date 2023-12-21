@@ -1,6 +1,6 @@
 package com.sky.tv.comics.repository;
 
-import com.sky.tv.comics.dto.GroupEnum;
+import com.sky.tv.comics.entity.GroupEnum;
 import com.sky.tv.comics.entity.GroupComic;
 import java.util.List;
 import java.util.UUID;

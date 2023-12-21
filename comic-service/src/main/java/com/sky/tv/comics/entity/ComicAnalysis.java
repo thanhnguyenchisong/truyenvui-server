@@ -1,6 +1,7 @@
 package com.sky.tv.comics.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Entity(name = "r_comic_analysis")
 public class ComicAnalysis extends BaseEntity {
 
   @Column(name = "number_view")
@@ -27,6 +29,6 @@ public class ComicAnalysis extends BaseEntity {
   private Comic comic;
   @Column(name = "period_type")
   @Enumerated(EnumType.STRING)
-  private String periodType;
+  private PeriodTypeEnum periodType;
 
 }

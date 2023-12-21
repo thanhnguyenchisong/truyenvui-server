@@ -3,7 +3,6 @@ package com.sky.tv.comics.controller;
 import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
-import com.sky.tv.comics.dto.response.PagingResponse;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.exception.ComicBusinessException;
 import com.sky.tv.comics.service.ComicService;
@@ -97,7 +96,7 @@ public class ComicController {
   @GetMapping(value = "get/popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@QueryParam(value = "quality") int quality) throws ParseException {
-    return ResponseEntity.status(HttpStatus.OK).body(comicService.getPopular(quality));
+    return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPopular(quality));
   }
 
   /**

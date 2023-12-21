@@ -1,16 +1,15 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.dto.GroupEnum;
+import com.sky.tv.comics.entity.GroupEnum;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
-import com.sky.tv.comics.dto.response.PagingResponse;
 import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.CategoryEnum;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.entity.GroupComic;
-import com.sky.tv.comics.entity.custom.TopComicView;
+import com.sky.tv.comics.entity.custom.TopComic;
 import com.sky.tv.comics.exception.ComicBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
@@ -27,7 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -91,13 +89,13 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
   }
 
   @Override
-  public List<ComicDTO> getPopular(int quality) throws ParseException {
+  public List<ComicDTO> getComicPopular(int quality) throws ParseException {
     String startDate = DateUtils.fromDateToString(new Date(), TimeZone.getDefault());
     String endDate = DateUtils.addDay(startDate, -7);
-    List<TopComicView> topComicViews = comicAnalysisRepo.getComicAnalysisByView(startDate,
-                                                                                endDate,
-                                                                                quality);
-    List<Comic> comics = topComicViews.stream().map(TopComicView::getComic).toList();
+    List<TopComic> topComicViews = comicAnalysisRepo.getComicAnalysisByView(startDate,
+                                                                            endDate,
+                                                                            quality);
+    List<Comic> comics = topComicViews.stream().map(TopComic::getComic).toList();
     return comics.stream().map(AutoComicMapper.MAPPER::mapToComicDto).toList();
   }
 
