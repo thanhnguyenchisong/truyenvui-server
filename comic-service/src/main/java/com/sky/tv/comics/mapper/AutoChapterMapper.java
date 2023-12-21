@@ -15,7 +15,7 @@ public interface AutoChapterMapper {
 
   AutoChapterMapper MAPPER = Mappers.getMapper(AutoChapterMapper.class);
 
-  ChapterDTO mapToComicDto(Chapter chapter);
+  ChapterDTO mapToChapterDto(Chapter chapter);
 
-  Chapter mapToComic(ChapterDTO comicDTO);
+  Chapter mapToChapter(ChapterDTO comicDTO);
 }

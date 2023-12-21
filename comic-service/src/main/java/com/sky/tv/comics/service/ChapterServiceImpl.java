@@ -18,6 +18,6 @@ public class ChapterServiceImpl implements ChapterService {
   @Override
   public List<ChapterDTO> getAllChapter(UUID comicID) throws ComicBusinessException {
     return chapterRepo.getAllChapterByComicId(comicID).stream()
-        .map(AutoChapterMapper.MAPPER::mapToComicDto).toList();
+        .map(AutoChapterMapper.MAPPER::mapToChapterDto).toList();
   }
 }

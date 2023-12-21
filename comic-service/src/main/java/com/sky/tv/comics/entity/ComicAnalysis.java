@@ -14,8 +14,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ComicAnalysis extends BaseEntity {
 
-  @Column(name = "number_read")
-  private int numberRead;
+  @Column(name = "number_view")
+  private int numberView;
   @Column(name = "number_like")
   private int numberLike;
   @Column(name = "start_time")

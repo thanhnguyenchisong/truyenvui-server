@@ -12,14 +12,8 @@ public class CustomChapterRepoImpl implements CustomChapterRepo {
   private EntityManager entityManager;
 
   public List<Chapter> getAllChapterByComicId(UUID comicID) {
-  /*      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Chapter> cr = cb.createQuery(Chapter.class);
-        Root<Chapter> root = cr.from(Chapter.class);
-        cr.where(cb.equal(root.get("comic").get("id"), comicID));*/
-    // another way
     String formQuery = "SELECT c FROM Chapter c WHERE c.comic.id = %s";
     String query = String.format(formQuery, comicID.toString());
-
     return entityManager.createQuery(query, Chapter.class).getResultList();
   }
 }

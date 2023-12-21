@@ -23,8 +23,11 @@ public class Comic extends BaseEntity {
   private String image;
   @Column
   private String description;
-  @Column(name = "number_read")
-  private int numberRead;
+  @Column(name = "number_view")
+  private int numberView;
+
+  @Column(name = "number_like")
+  private int numberLike;
   @Enumerated(EnumType.STRING)
   private ProcessEnum status;
   @Enumerated(EnumType.STRING)

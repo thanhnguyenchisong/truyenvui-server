@@ -1,6 +1,9 @@
 package com.sky.tv.comics.entity;
 
+import com.sky.tv.comics.dto.GroupEnum;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -14,7 +17,8 @@ import lombok.EqualsAndHashCode;
 public class GroupComic extends BaseEntity {
 
   @Column(name = "group_name")
-  private String groupName;
+  @Enumerated(EnumType.STRING)
+  private GroupEnum groupName;
 
   @Column(name = "description")
   private String description;

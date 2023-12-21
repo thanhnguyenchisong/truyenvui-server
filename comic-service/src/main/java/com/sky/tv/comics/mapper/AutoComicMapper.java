@@ -12,8 +12,11 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper
 public interface AutoComicMapper {
-
   AutoComicMapper MAPPER = Mappers.getMapper(AutoComicMapper.class);
+
+ /* default ChapterDTO toChapterDto(Chapter chapter) {
+    return AutoChapterMapper.MAPPER.mapToChapterDto(chapter);
+  }*/
 
   ComicDTO mapToComicDto(Comic comic);
 

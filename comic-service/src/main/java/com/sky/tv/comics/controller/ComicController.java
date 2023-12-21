@@ -2,20 +2,17 @@ package com.sky.tv.comics.controller;
 
 import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.dto.paging.PagingResponse;
+import com.sky.tv.comics.dto.response.BundlePagingResponse;
+import com.sky.tv.comics.dto.response.PagingResponse;
 import com.sky.tv.comics.dto.request.GetComicPaging;
-import com.sky.tv.comics.dto.request.GetTypeDTO;
-import com.sky.tv.comics.dto.response.ComicGroupDTO;
-import com.sky.tv.comics.entity.ComicAnalysis;
 import com.sky.tv.comics.exception.ComicBusinessException;
-import com.sky.tv.comics.service.ComicAnalysisService;
 import com.sky.tv.comics.service.ComicService;
-import com.sky.tv.comics.service.ComicServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -24,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ComicController {
 
   private final ComicService comicService;
-  private final ComicAnalysisService comicAnalysisService;
 
   @Operation(
       summary = "Get Comics REST API",
@@ -85,6 +80,12 @@ public class ComicController {
     return ResponseEntity.status(HttpStatus.OK).body(ResponseDefault.UPDATED);
   }
 
+  /**
+   * For slide bar
+   * @param quality
+   * @return
+   * @throws ParseException
+   */
   @Operation(
       summary = "Get popular Comics REST API",
       description = "Get popular Comics REST API"
@@ -95,26 +96,15 @@ public class ComicController {
   )
   @GetMapping(value = "get/popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ComicGroupDTO> get(@QueryParam(value = "quality") int quality) {
-    comicService.getPopular(quality);
-    return null;
+  public ResponseEntity<List<ComicDTO>> get(@QueryParam(value = "quality") int quality) throws ParseException {
+    return ResponseEntity.status(HttpStatus.OK).body(comicService.getPopular(quality));
   }
 
-  @Operation(
-      summary = "Get Comics REST API",
-      description = "Get Comics REST API by a list Group or Category"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status 200 OK"
-  )
-  @PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
-      MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ComicGroupDTO> get(@RequestBody List<String> names,
-      @QueryParam(value = "type") GetTypeDTO type) {
-    return null;
-  }
-
+  /**
+   * For group in home page and category
+   * @param comicPaging
+   * @return
+   */
   @Operation(
       summary = "Get Comics REST API",
       description = "Get Comics REST API by a Group or Category having paging"
@@ -125,7 +115,7 @@ public class ComicController {
   )
   @PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<PagingResponse<ComicDTO>> get(@RequestBody GetComicPaging comicPaging) {
-    return null;
+  public ResponseEntity<List<BundlePagingResponse<ComicDTO>>> get(@RequestBody GetComicPaging comicPaging) {
+    return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPaging(comicPaging));
   }
 }
