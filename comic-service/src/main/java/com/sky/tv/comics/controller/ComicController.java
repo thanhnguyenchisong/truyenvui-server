@@ -2,9 +2,9 @@ package com.sky.tv.comics.controller;
 
 import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.dto.response.BundlePagingResponse;
 import com.sky.tv.comics.dto.request.GetComicPaging;
-import com.sky.tv.comics.exception.ComicBusinessException;
+import com.sky.tv.comics.dto.response.BundlePagingResponse;
+import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import com.sky.tv.comics.service.ComicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("comic")
+@RequestMapping("comics")
 public class ComicController {
 
   private final ComicService comicService;
@@ -45,7 +46,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@RequestBody List<UUID> ids) {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.get(ids));
   }
@@ -58,7 +59,7 @@ public class ComicController {
       responseCode = "201",
       description = "HTTP Status 200 CREATED"
   )
-  @PostMapping(value = "create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {
     comicService.create(comicDTOs);
     return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
@@ -72,9 +73,9 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PostMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs)
-      throws ComicBusinessException {
+      throws ComicServiceBusinessException {
     comicService.update(comicDTOs);
     return ResponseEntity.status(HttpStatus.OK).body(ResponseDefault.UPDATED);
   }
@@ -93,7 +94,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @GetMapping(value = "get/popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
+  @GetMapping(value = "popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@QueryParam(value = "quality") int quality) throws ParseException {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPopular(quality));
@@ -112,7 +113,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PostMapping(value = "get", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
+  @PostMapping(value = "comic-paging", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<BundlePagingResponse<ComicDTO>>> get(@RequestBody GetComicPaging comicPaging) {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPaging(comicPaging));

@@ -10,7 +10,7 @@ import com.sky.tv.comics.entity.CategoryEnum;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.entity.GroupComic;
 import com.sky.tv.comics.entity.custom.TopComic;
-import com.sky.tv.comics.exception.ComicBusinessException;
+import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
@@ -76,11 +76,11 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
   }
 
   @Override
-  public void update(@Valid List<ComicDTO> comicDTOs) throws ComicBusinessException {
+  public void update(@Valid List<ComicDTO> comicDTOs) throws ComicServiceBusinessException {
     List<UUID> ids = comicDTOs.stream().map(ComicDTO::getId).toList();
     List<Comic> comics = comicRepo.findAllById(ids);
     if (comics.size() != ids.size()) {
-      throw new ComicBusinessException("Can't find out the entity with your DTOs");
+      throw new ComicServiceBusinessException("Can't find out the entity with your DTOs");
     }
     List<Comic> comicsFromDTO = comicDTOs.stream()
         .map(AutoComicMapper.MAPPER::mapToComic)
@@ -136,7 +136,7 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
             paging.getPageSize(),
             paging.getPageNumber()
         );
-        result.add(buildBundleGroupComic(comicResult, group.getGroupName(), paging.getPageNumber(), paging.getPageSize()));
+        result.add(buildBundleGroupComic(comicResult, group.getName(), paging.getPageNumber(), paging.getPageSize()));
       }
     } else {
       List<GroupEnum> groupEnums = names.stream().map(GroupEnum::valueOf).toList();
@@ -148,7 +148,7 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
             paging.getPageSize(),
             paging.getPageNumber()
         );
-        result.add(buildBundleGroupComic(comicResult, group.getGroupName(), paging.getPageNumber(), paging.getPageSize()));
+        result.add(buildBundleGroupComic(comicResult, group.getName(), paging.getPageNumber(), paging.getPageSize()));
       }
     }
     return result;
@@ -177,7 +177,7 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
     List<BundlePagingResponse<ComicDTO>> pagingResponses = new ArrayList<>();
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
     for(Category category : categories) {
-      List<Comic> comics =  comicRepo.findAllByCategory(category, pageable);
+      List<Comic> comics =  comicRepo.findAllByCategories(category, pageable);
       List<ComicDTO> comicDTOS = comics.stream().map(AutoComicMapper.MAPPER::mapToComicDto).toList();
       BundlePagingResponse<ComicDTO> pagingResponse = new BundlePagingResponse<>(category.getName().name());
       pagingResponse.setContent(comicDTOS);

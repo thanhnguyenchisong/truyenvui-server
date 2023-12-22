@@ -10,6 +10,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ComicRepo extends JpaRepository<Comic, UUID>, PagingAndSortingRepository<Comic, UUID> {
 
-  List<Comic> findAllByCategory(Category category, Pageable pageable);
+  List<Comic> findAllByCategories(Category category, Pageable pageable);
 
 }

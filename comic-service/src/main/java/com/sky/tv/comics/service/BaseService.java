@@ -1,6 +1,6 @@
 package com.sky.tv.comics.service;
 
-import com.sky.tv.comics.exception.ComicBusinessException;
+import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,5 +12,5 @@ public interface BaseService<T> {
 
   void create(List<T> inputs);
 
-  void update(List<T> inputs) throws ComicBusinessException;
+  void update(List<T> inputs) throws ComicServiceBusinessException;
 }

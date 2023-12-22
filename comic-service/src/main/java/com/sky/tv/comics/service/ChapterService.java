@@ -1,7 +1,7 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ChapterDTO;
-import com.sky.tv.comics.exception.ComicBusinessException;
+import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +12,11 @@ public interface ChapterService {
    *
    * @param comicID
    * @return
-   * @throws ComicBusinessException
+   * @throws ComicServiceBusinessException
    */
-  List<ChapterDTO> getAllChapter(UUID comicID) throws ComicBusinessException;
+  List<ChapterDTO> getAllChapter(UUID comicID);
+
+  void createChapters(List<ChapterDTO> chapterDTOs);
+
+  void updateChapters(List<ChapterDTO> chapterDTOs) throws ComicServiceBusinessException;
 }

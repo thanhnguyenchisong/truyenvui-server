@@ -5,3 +5,4 @@ Ctrl + Shift + F : Find file
 Ctrl + D : Duplicate a line
 Ctrl + X : Remove a line
 Ctrl + Alt + Click: Update multiple line 1 time
+Ctrl +/- : Back to the last position

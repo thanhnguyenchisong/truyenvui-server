@@ -1,11 +1,15 @@
 package com.sky.tv.comics.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sky.tv.comics.entity.ProcessEnum;
+import com.sky.tv.comics.entity.SourceEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.mapstruct.Mapping;
 
 @Schema(
     description = "ComicDTO Model Information"
@@ -42,5 +46,10 @@ public class ComicDTO extends BaseDTO {
       description = "number like"
   )
   private int numberLike;
-  // private List<ChapterDTO> chapters;
+
+  private ProcessEnum status;
+
+  private SourceEnum source;
+  
+  private List<UUID> categoryIDs;
 }

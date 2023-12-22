@@ -17,9 +17,9 @@ import lombok.EqualsAndHashCode;
 @Entity(name = "r_group")
 public class GroupComic extends BaseEntity {
 
-  @Column(name = "group_name")
+  @Column(name = "name")
   @Enumerated(EnumType.STRING)
-  private GroupEnum groupName;
+  private GroupEnum name;
 
   @Column(name = "description")
   private String description;
