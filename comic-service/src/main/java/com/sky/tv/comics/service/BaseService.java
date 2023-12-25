@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface BaseService<T> {
 
-  T get(UUID ids);
+  T get(UUID id);
 
   List<T> get(List<UUID> ids);
 

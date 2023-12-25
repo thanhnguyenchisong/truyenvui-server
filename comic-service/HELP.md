@@ -53,4 +53,8 @@ docker run --name comic-service-mysql -p 3306:3306 -v data/comic-service-data:/v
 MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=comic-service -d mysql:8.2.0
 
 
+# Swagger-ui
+http://localhost:8100/swagger-ui/index.html
+
+
 

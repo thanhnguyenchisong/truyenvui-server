@@ -73,7 +73,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs)
       throws ComicServiceBusinessException {
     comicService.update(comicDTOs);
@@ -94,7 +94,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @GetMapping(value = "popular", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
+  @GetMapping(value = "popular", produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@QueryParam(value = "quality") int quality) throws ParseException {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPopular(quality));
@@ -113,7 +113,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PostMapping(value = "comic-paging", consumes = MediaType.APPLICATION_JSON_VALUE, produces =
+  @PostMapping(value = "comic-paging", produces =
       MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<BundlePagingResponse<ComicDTO>>> get(@RequestBody GetComicPaging comicPaging) {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPaging(comicPaging));

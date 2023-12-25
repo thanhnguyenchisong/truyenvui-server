@@ -14,9 +14,9 @@ public interface ChapterService {
    * @return
    * @throws ComicServiceBusinessException
    */
-  List<ChapterDTO> getAllChapter(UUID comicID);
+  List<ChapterDTO> getAll(UUID comicID);
 
-  void createChapters(List<ChapterDTO> chapterDTOs);
+  void create(List<ChapterDTO> chapterDTOs);
 
-  void updateChapters(List<ChapterDTO> chapterDTOs) throws ComicServiceBusinessException;
+  void update(List<ChapterDTO> chapterDTOs) throws ComicServiceBusinessException;
 }
