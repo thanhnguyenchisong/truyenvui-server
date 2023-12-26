@@ -1,4 +1,4 @@
-package com.sky.tv.comics.repository.extend;
+package com.sky.tv.comics.repository.custom;
 
 import com.sky.tv.comics.entity.ComicAnalysis;
 import com.sky.tv.comics.entity.custom.TopComic;
