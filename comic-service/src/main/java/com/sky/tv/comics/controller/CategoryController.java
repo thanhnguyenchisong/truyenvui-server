@@ -42,7 +42,7 @@ public class CategoryController {
     }
 
     @Operation(
-        summary = "Get Category REST API",
+        summary = "Get Category REST API by ID",
         description = "Get Category REST API by ID"
     )
     @ApiResponse(
