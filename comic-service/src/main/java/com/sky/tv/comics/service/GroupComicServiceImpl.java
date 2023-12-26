@@ -8,6 +8,7 @@ import com.sky.tv.comics.mapper.AutoGroupComicMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class GroupComicServiceImpl implements GroupComicService {
 
     private final GroupComicRepo groupComicRepo;
@@ -35,23 +37,23 @@ public class GroupComicServiceImpl implements GroupComicService {
             throw new ComicServiceBusinessException("Object already existed in Database");
         }
 
-        List<GroupComic> groupComics = groupComicDTOs.stream().map(groupComicDTO -> {
-            GroupComic groupComic = AutoGroupComicMapper.MAPPER.toEntity(groupComicDTO);
-            //entityManager.persist(groupComicDTO);
-            List<Category> categories = categoryRepo.findAllById(groupComicDTO.getCategoryIDs());
-            for(Category category : categories) {
-                category.getGroupComics().add(groupComic);
-            }
-            groupComic.setCategories(new HashSet<>(categories));
-            return groupComic;
-        }).toList();
+        List<GroupComic> groupComics = getComics(groupComicDTOs);
 
         groupComicRepo.saveAll(groupComics);
     }
 
+    private List<GroupComic> getComics(List<GroupComicDTO> groupComicDTOs) {
+        return groupComicDTOs.stream().map(groupComicDTO -> {
+            GroupComic groupComic = AutoGroupComicMapper.MAPPER.toEntity(groupComicDTO);
+            List<Category> categories = categoryRepo.findAllById(groupComicDTO.getCategoryIDs());
+            groupComic.setCategories(new HashSet<>(categories));
+            return groupComic;
+        }).toList();
+    }
+
     @Override
-    public void update(List<GroupComicDTO> categoryDTOs) throws ComicServiceBusinessException {
-        List<GroupComic> groupComics = categoryDTOs.stream().map(AutoGroupComicMapper.MAPPER::toEntity).toList();
+    public void update(List<GroupComicDTO> groupComicDTOs) throws ComicServiceBusinessException {
+        List<GroupComic> groupComics = getComics(groupComicDTOs);
         List<GroupComic> resultFromDB = groupComicRepo.findAllById(groupComics.stream().map(GroupComic::getName).toList());
         if(resultFromDB.size() != groupComics.size()) throw new ComicServiceBusinessException("Can't found out ids in DB to update, please recheck");
         groupComicRepo.saveAll(groupComics);

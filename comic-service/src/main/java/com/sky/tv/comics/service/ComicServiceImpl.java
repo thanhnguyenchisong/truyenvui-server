@@ -1,5 +1,6 @@
 package com.sky.tv.comics.service;
 
+import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
@@ -21,9 +22,14 @@ import jakarta.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,19 +67,29 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
 
     @Override
     public void create(@Valid List<ComicDTO> comicDTOs) {
+        Set<String> categoryIDs = new HashSet<>();
+        for(ComicDTO comicDTO : comicDTOs) {
+            categoryIDs.addAll(comicDTO.getCategoryIDs());
+        }
+        Map<String, Category> map =
+            categoryRepo.findAllById(categoryIDs).stream().collect(Collectors.toMap(Category::getName,
+                Function.identity()));
+        //TODO add the category to comic
         List<Comic> comics = comicDTOs.stream().map(AutoComicMapper.MAPPER::toEntity).toList();
         comicRepo.saveAll(comics);
     }
 
     @Override
     public void update(@Valid List<ComicDTO> comicDTOs) throws ComicServiceBusinessException {
-        List<UUID> ids = comicDTOs.stream().map(ComicDTO::getId).toList();
-        List<Comic> comics = comicRepo.findAllById(ids);
-        if (comics.size() != ids.size()) {
+        Map<UUID, ComicDTO> mapDTOs = comicDTOs.stream().collect(Collectors.toMap(ComicDTO::getId,
+            Function.identity()));
+        List<Comic> existingComics = comicRepo.findAllById(mapDTOs.keySet());
+        if (existingComics.size() != mapDTOs.size()) {
             throw new ComicServiceBusinessException("Can't find out the entity with your DTOs");
         }
-        List<Comic> comicsFromDTO = comicDTOs.stream().map(AutoComicMapper.MAPPER::toEntity).toList();
-        comicRepo.saveAll(comicsFromDTO);
+        List<Comic> comics = existingComics.stream().map(comic -> AutoComicMapper.MAPPER.toEntity(mapDTOs.get(comic.getId()), comic)).toList();
+
+        comicRepo.saveAll(comics);
     }
 
     @Override

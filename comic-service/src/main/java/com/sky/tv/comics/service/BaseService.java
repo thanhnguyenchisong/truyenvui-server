@@ -13,4 +13,5 @@ public interface BaseService<T> {
   void create(List<T> inputs);
 
   void update(List<T> inputs) throws ComicServiceBusinessException;
+
 }

@@ -9,11 +9,15 @@ import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoCategoryMapper;
 import com.sky.tv.comics.mapper.AutoChapterMapper;
+import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.repository.ChapterRepo;
 import com.sky.tv.comics.repository.ComicRepo;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,15 +38,34 @@ public class ChapterServiceImpl implements ChapterService {
 
   @Override
   public void create(List<ChapterDTO> chapterDTOs) {
-    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::toEntity).toList();
+    List<Comic> comics =
+        comicRepo.findAllById(chapterDTOs.stream().map(ChapterDTO::getComicID).toList());
+    Map<UUID, Comic> mapComic = comics.stream().collect(Collectors.toMap(Comic::getId,
+        Function.identity()));
+    List<Chapter> chapters =
+        chapterDTOs.stream().map(dto -> {
+          Chapter chapter = AutoChapterMapper.MAPPER.toEntity(dto);
+          Comic comic = mapComic.get(dto.getComicID());
+          if(comic == null) throw new ResourceNotFoundException("Comic", "comic id",
+              dto.getComicID().toString());
+          chapter.setComic(comic);
+          return chapter;
+        }).toList();
     chapterRepo.saveAll(chapters);
   }
 
   @Override
   public void update(List<ChapterDTO> chapterDTOs) throws ComicServiceBusinessException {
-    List<Chapter> resultFromDB = chapterRepo.findAllById(chapterDTOs.stream().map(ChapterDTO::getId).toList());
-    if(chapterDTOs.size() != resultFromDB.size()) throw new ComicServiceBusinessException("Can't found out object from id inputs");
-    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::toEntity).toList();
-    chapterRepo.saveAll(chapters);
+    Map<UUID, ChapterDTO> map = chapterDTOs.stream()
+        .collect(Collectors.toMap(ChapterDTO::getId, Function.identity()));
+    List<Chapter> existingChapter = chapterRepo.findAllById(map.keySet());
+    if (chapterDTOs.size() != existingChapter.size()) {
+      throw new ComicServiceBusinessException("Can't found out object from id inputs");
+    }
+    List<Chapter> updatedChapters =
+        existingChapter.stream()
+            .map(chapter -> AutoChapterMapper.MAPPER.toEntity(map.get(chapter.getId()),
+                chapter)).toList();
+    chapterRepo.saveAll(updatedChapters);
   }
 }

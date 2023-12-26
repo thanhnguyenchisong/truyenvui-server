@@ -41,6 +41,12 @@ public class CategoryServiceImpl implements CategoryService {
     categoryRepo.saveAll(categories);
   }
 
+  /**
+   * Update comics
+   * Note: No support update relationship with other objects.
+   * @param categoryDTOs DTO
+   * @throws ComicServiceBusinessException Catch the not found the entity from DTO
+   */
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws ComicServiceBusinessException {
     List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();

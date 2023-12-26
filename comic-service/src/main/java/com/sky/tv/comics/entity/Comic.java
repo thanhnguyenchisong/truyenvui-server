@@ -36,7 +36,7 @@ public class Comic extends CSBaseEntity {
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Chapter> chapters;
 
-  @ManyToMany(mappedBy = "comics", fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "comics", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Category> categories;
 
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

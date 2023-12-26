@@ -46,7 +46,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PostMapping(value = "/batch", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/batch", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@RequestBody List<UUID> ids) {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.get(ids));
   }
@@ -59,7 +59,7 @@ public class ComicController {
       responseCode = "201",
       description = "HTTP Status 201 CREATED"
   )
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {
     comicService.create(comicDTOs);
     return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
@@ -73,7 +73,7 @@ public class ComicController {
       responseCode = "200",
       description = "HTTP Status 200 OK"
   )
-  @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs)
       throws ComicServiceBusinessException {
     comicService.update(comicDTOs);
