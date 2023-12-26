@@ -7,7 +7,7 @@ import java.util.List;
 public interface GroupComicService {
     List<GroupComicDTO> getAll();
 
-    void create(List<GroupComicDTO> categoryDTOs);
+    void create(List<GroupComicDTO> groupComicDTOs);
 
-    void update(List<GroupComicDTO> categoryDTOs) throws ComicServiceBusinessException;
+    void update(List<GroupComicDTO> groupComicDTOs) throws ComicServiceBusinessException;
 }

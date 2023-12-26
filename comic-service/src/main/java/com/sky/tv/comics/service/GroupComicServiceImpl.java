@@ -23,8 +23,8 @@ public class GroupComicServiceImpl implements GroupComicService {
 
     @Override
     public void create(List<GroupComicDTO> groupComicDTOs) {
-        List<GroupComic> categories = groupComicDTOs.stream().map(AutoGroupMapper.MAPPER::mapToGroupComic).toList();
-        groupComicRepo.saveAll(categories);
+        List<GroupComic> groupComics = groupComicDTOs.stream().map(AutoGroupMapper.MAPPER::mapToGroupComic).toList();
+        groupComicRepo.saveAll(groupComics);
     }
 
     @Override
