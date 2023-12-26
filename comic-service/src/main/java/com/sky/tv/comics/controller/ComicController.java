@@ -39,7 +39,7 @@ public class ComicController {
   private final ComicService comicService;
 
   @Operation(
-      summary = "Get Comics REST API",
+      summary = "Get Comics REST API by IDs",
       description = "Get Comics REST API by IDs from Database"
   )
   @ApiResponse(
@@ -59,7 +59,7 @@ public class ComicController {
       responseCode = "201",
       description = "HTTP Status 201 CREATED"
   )
-  @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {
     comicService.create(comicDTOs);
     return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);

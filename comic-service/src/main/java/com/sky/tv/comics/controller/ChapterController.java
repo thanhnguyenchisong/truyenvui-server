@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,15 +29,15 @@ public class ChapterController {
     private final ChapterService chapterService;
 
     @Operation(
-        summary = "Get Chapter REST API",
+        summary = "Get Chapter REST API by ID",
         description = "Get Chapter REST API by ID"
     )
     @ApiResponse(
         responseCode = "200",
         description = "HTTP Status 200 OK"
     )
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ChapterDTO>> get(@QueryParam(value = "comic.id") UUID chapterID) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ChapterDTO>> get(@PathVariable(value = "id") UUID chapterID) {
         return ResponseEntity.ok(chapterService.getAll(chapterID));
     }
 

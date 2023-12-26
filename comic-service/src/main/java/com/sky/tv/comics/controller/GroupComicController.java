@@ -42,7 +42,7 @@ public class GroupComicController {
     }
 
     @Operation(
-        summary = "Get Group REST API",
+        summary = "Get Group REST API by ID",
         description = "Get Group REST API by ID"
     )
     @ApiResponse(
