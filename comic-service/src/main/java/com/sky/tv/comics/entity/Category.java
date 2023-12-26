@@ -2,20 +2,20 @@ package com.sky.tv.comics.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import java.util.Set;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_category")
 public class Category extends BaseEntity {
-
-  private CategoryEnum name;
+  @Id
+  private String name;
   private String description;
+
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(

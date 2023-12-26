@@ -30,7 +30,7 @@ public interface AutoComicMapper {
   Comic mapToComic(ComicDTO comicDTO);
 
   @Named("categoryObjectToID")
-  static List<UUID> categoryObjectToID(Set<Category> categories) {
-    return categories.stream().map(Category::getId).toList();
+  static List<String> categoryObjectToID(Set<Category> categories) {
+    return categories.stream().map(Category::getName).toList();
   }
 }

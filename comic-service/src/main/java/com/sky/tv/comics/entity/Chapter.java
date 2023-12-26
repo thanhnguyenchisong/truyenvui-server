@@ -12,14 +12,14 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_chapter")
-public class Chapter extends BaseEntity {
+public class Chapter extends CSBaseEntity {
 
   private int number;
   private String name;
   @Column(name = "view_number")
   private int viewNumber;
-  @Column(name = "avatar_src")
-  private String avatar_src;
+  @Column(name = "avatar_url")
+  private String avatarUrl;
   @Column(name = "photo_number")
   private int photoNumber;
   @ManyToOne(fetch = FetchType.LAZY)

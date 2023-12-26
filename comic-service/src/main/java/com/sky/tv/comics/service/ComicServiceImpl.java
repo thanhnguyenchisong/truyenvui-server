@@ -1,14 +1,13 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.ComicDTO;
-import com.sky.tv.comics.entity.GroupEnum;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
 import com.sky.tv.comics.entity.Category;
-import com.sky.tv.comics.entity.CategoryEnum;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.entity.GroupComic;
+import com.sky.tv.comics.entity.GroupEnum;
 import com.sky.tv.comics.entity.custom.TopComic;
 import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
@@ -105,8 +104,7 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
             List<Category> categories = categoryRepo.findAll();
             result = getComicByCategories(categories, paging.getPageSize(), paging.getPageNumber());
         } else {
-            List<CategoryEnum> categoryEnums = names.stream().map(CategoryEnum::valueOf).toList();
-            List<Category> categories = categoryRepo.findAllByNameIn(categoryEnums);
+            List<Category> categories = categoryRepo.findAllByNameIn(names);
             result = getComicByCategories(categories, paging.getPageSize(), paging.getPageNumber());
         }
         return result;
@@ -171,7 +169,7 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
         for (Category category : categories){
             List<Comic> comics = comicRepo.findAllByCategories(category, pageable);
             List<ComicDTO> comicDTOS = comics.stream().map(AutoComicMapper.MAPPER::mapToComicDto).toList();
-            BundlePagingResponse<ComicDTO> pagingResponse = new BundlePagingResponse<>(category.getName().name());
+            BundlePagingResponse<ComicDTO> pagingResponse = new BundlePagingResponse<>(category.getName());
             pagingResponse.setContent(comicDTOS);
             pagingResponse.setPageSize(pageSize);
             pagingResponse.setPageNumber(pageNumber);

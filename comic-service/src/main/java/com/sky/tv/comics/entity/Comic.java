@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "r_comic")
-public class Comic extends BaseEntity {
+public class Comic extends CSBaseEntity {
 
   @Column
   private String name;

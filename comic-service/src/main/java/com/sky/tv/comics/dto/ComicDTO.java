@@ -6,10 +6,8 @@ import com.sky.tv.comics.entity.SourceEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.mapstruct.Mapping;
 
 @Schema(
     description = "ComicDTO Model Information"
@@ -17,7 +15,7 @@ import org.mapstruct.Mapping;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ComicDTO extends BaseDTO {
+public class ComicDTO extends CSBaseDTO {
 
   @Schema(
       description = "Comic name"
@@ -51,5 +49,5 @@ public class ComicDTO extends BaseDTO {
 
   private SourceEnum source;
   
-  private List<UUID> categoryIDs;
+  private List<String> categoryIDs;
 }

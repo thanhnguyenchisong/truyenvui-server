@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws ComicServiceBusinessException {
     List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::mapToCategory).toList();
-    List<Category> resultFromDB = categoryRepo.findAllById(categories.stream().map(Category::getId).toList());
+    List<Category> resultFromDB = categoryRepo.findAllById(categories.stream().map(Category::getName).toList());
     if(resultFromDB.size() != categories.size()) throw new ComicServiceBusinessException("Can't found out ids in DB to update, please recheck");
     categoryRepo.saveAll(categories);
   }

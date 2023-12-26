@@ -30,7 +30,7 @@ public class GroupComicServiceImpl implements GroupComicService {
     @Override
     public void update(List<GroupComicDTO> categoryDTOs) throws ComicServiceBusinessException {
         List<GroupComic> groupComics = categoryDTOs.stream().map(AutoGroupMapper.MAPPER::mapToGroupComic).toList();
-        List<GroupComic> resultFromDB = groupComicRepo.findAllById(groupComics.stream().map(GroupComic::getId).toList());
+        List<GroupComic> resultFromDB = groupComicRepo.findAllById(groupComics.stream().map(GroupComic::getName).toList());
         if(resultFromDB.size() != groupComics.size()) throw new ComicServiceBusinessException("Can't found out ids in DB to update, please recheck");
         groupComicRepo.saveAll(groupComics);
     }

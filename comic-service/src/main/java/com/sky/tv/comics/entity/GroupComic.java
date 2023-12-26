@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -19,6 +20,7 @@ public class GroupComic extends BaseEntity {
 
   @Column(name = "name")
   @Enumerated(EnumType.STRING)
+  @Id
   private GroupEnum name;
 
   @Column(name = "description")
