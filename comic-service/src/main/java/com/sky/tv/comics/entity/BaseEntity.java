@@ -4,15 +4,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @Data
 public class BaseEntity {
   @Column(name = "create_time")
-  protected Date createTime;
+  private Date createTime;
   @Column(name = "update_time")
-  protected Date updateTime;
+  private Date updateTime;
 
   @PrePersist
   public void prePersist() {

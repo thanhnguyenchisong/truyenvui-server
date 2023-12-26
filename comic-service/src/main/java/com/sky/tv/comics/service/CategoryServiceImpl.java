@@ -21,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
   public List<CategoryDTO> getAll() {
     List<Category> categories = categoryRepo.findAll();
     return categories.stream()
-        .map(AutoCategoryMapper.MAPPER::mapToCategoryDTO)
+        .map(AutoCategoryMapper.MAPPER::toDTO)
         .toList();
   }
 
@@ -37,13 +37,13 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void create(List<CategoryDTO> categoryDTOs) {
-    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::mapToCategory).toList();
+    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
     categoryRepo.saveAll(categories);
   }
 
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws ComicServiceBusinessException {
-    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::mapToCategory).toList();
+    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
     List<Category> resultFromDB = categoryRepo.findAllById(categories.stream().map(Category::getName).toList());
     if(resultFromDB.size() != categories.size()) throw new ComicServiceBusinessException("Can't found out ids in DB to update, please recheck");
     categoryRepo.saveAll(categories);

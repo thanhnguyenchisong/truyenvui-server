@@ -1,9 +1,8 @@
 package com.sky.tv.comics.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,19 +16,17 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity(name = "r_group")
 public class GroupComic extends BaseEntity {
-
-  @Column(name = "name")
-  @Enumerated(EnumType.STRING)
   @Id
-  private GroupEnum name;
+  @Column(name = "name")
+  private String name;
 
   @Column(name = "description")
   private String description;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(
       name = "r_group_category",
-      joinColumns = @JoinColumn(name = "r_category"),
-      inverseJoinColumns = @JoinColumn(name = "r_comic"))
+      joinColumns = @JoinColumn(name = "r_group"),
+      inverseJoinColumns = @JoinColumn(name = "r_category"))
   private Set<Category> categories;
 }

@@ -63,7 +63,8 @@ public class GroupComicController {
         description = "HTTP Status 201 CREATED"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDefault> create(@RequestBody List<GroupComicDTO> groupComicDTOs) {
+    public ResponseEntity<ResponseDefault> create(@RequestBody List<GroupComicDTO> groupComicDTOs)
+        throws ComicServiceBusinessException {
         groupComicService.create(groupComicDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
     }

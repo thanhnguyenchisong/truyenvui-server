@@ -19,6 +19,6 @@ public class CSBaseEntity extends BaseEntity {
     @PrePersist
     public void prePersist() {
         if(id == null) id = UUID.randomUUID();
-        if(createTime == null) createTime = new Date();
+        if(getCreateTime() == null) setCreateTime(new Date());
     }
 }

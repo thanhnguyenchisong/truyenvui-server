@@ -29,20 +29,20 @@ public class ChapterServiceImpl implements ChapterService {
   public List<ChapterDTO> getAll(UUID comicID) {
     Comic comic = comicRepo.findById(comicID).orElseThrow(() -> new ResourceNotFoundException("Comic", "id", comicID.toString()));
     return comic.getChapters().stream()
-        .map(AutoChapterMapper.MAPPER::mapToChapterDto).toList();
+        .map(AutoChapterMapper.MAPPER::toDTO).toList();
   }
 
   @Override
   public void create(List<ChapterDTO> chapterDTOs) {
-    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::mapToChapter).toList();
+    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::toEntity).toList();
     chapterRepo.saveAll(chapters);
   }
 
   @Override
   public void update(List<ChapterDTO> chapterDTOs) throws ComicServiceBusinessException {
     List<Chapter> resultFromDB = chapterRepo.findAllById(chapterDTOs.stream().map(ChapterDTO::getId).toList());
-    if(chapterDTOs.size() != resultFromDB.size()) throw new ComicServiceBusinessException("ThaNHNCS");
-    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::mapToChapter).toList();
+    if(chapterDTOs.size() != resultFromDB.size()) throw new ComicServiceBusinessException("Can't found out object from id inputs");
+    List<Chapter> chapters = chapterDTOs.stream().map(AutoChapterMapper.MAPPER::toEntity).toList();
     chapterRepo.saveAll(chapters);
   }
 }

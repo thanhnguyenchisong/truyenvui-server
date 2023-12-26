@@ -11,11 +11,7 @@ import org.mapstruct.factory.Mappers;
  * will process with that annotation configuration
  */
 @Mapper
-public interface AutoChapterMapper {
+public interface AutoChapterMapper extends AutoMapper<Chapter, ChapterDTO> {
 
   AutoChapterMapper MAPPER = Mappers.getMapper(AutoChapterMapper.class);
-
-  ChapterDTO mapToChapterDto(Chapter chapter);
-
-  Chapter mapToChapter(ChapterDTO comicDTO);
 }

@@ -2,16 +2,15 @@ package com.sky.tv.comics.exception;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class ErrorDetails {
 
   private LocalDateTime timestamp;
-  private String message;
+  private int status;
+  private String error;
   private String path;
-  private String errorCode;
 }

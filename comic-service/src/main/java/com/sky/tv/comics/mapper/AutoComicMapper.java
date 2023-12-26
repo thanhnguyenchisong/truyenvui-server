@@ -5,7 +5,6 @@ import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.Comic;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -17,17 +16,12 @@ import org.mapstruct.factory.Mappers;
  * will process with that annotation configuration
  */
 @Mapper
-public interface AutoComicMapper {
+public interface AutoComicMapper extends AutoMapper<Comic, ComicDTO> {
   AutoComicMapper MAPPER = Mappers.getMapper(AutoComicMapper.class);
 
- /* default ChapterDTO toChapterDto(Chapter chapter) {
-    return AutoChapterMapper.MAPPER.mapToChapterDto(chapter);
-  }*/
-
+  @Override
   @Mapping(source = "categories", target = "categoryIDs", qualifiedByName = "categoryObjectToID" )
-  ComicDTO mapToComicDto(Comic comic);
-
-  Comic mapToComic(ComicDTO comicDTO);
+  ComicDTO toDTO(Comic e);
 
   @Named("categoryObjectToID")
   static List<String> categoryObjectToID(Set<Category> categories) {

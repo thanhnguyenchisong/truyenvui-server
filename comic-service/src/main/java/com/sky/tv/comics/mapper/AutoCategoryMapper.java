@@ -6,11 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface AutoCategoryMapper {
+public interface AutoCategoryMapper extends AutoMapper<Category, CategoryDTO> {
 
   AutoCategoryMapper MAPPER = Mappers.getMapper(AutoCategoryMapper.class);
-
-  CategoryDTO mapToCategoryDTO(Category comic);
-
-  Category mapToCategory(CategoryDTO comicDTO);
 }
