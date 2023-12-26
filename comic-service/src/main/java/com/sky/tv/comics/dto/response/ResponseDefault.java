@@ -1,4 +1,4 @@
-package com.sky.tv.comics.constant;
+package com.sky.tv.comics.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

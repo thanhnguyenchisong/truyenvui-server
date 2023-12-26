@@ -1,6 +1,6 @@
 package com.sky.tv.comics.controller;
 
-import com.sky.tv.comics.constant.ResponseDefault;
+import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
