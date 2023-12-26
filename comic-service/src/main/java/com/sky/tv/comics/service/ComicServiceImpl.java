@@ -18,7 +18,7 @@ import com.sky.tv.comics.repository.ComicAnalysisRepo;
 import com.sky.tv.comics.repository.ComicRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
 import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
-import com.sky.tv.comics.utils.DateUtils;
+import com.sky.tv.comics.utils.DateServiceUtils;
 import jakarta.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -80,8 +80,8 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
 
     @Override
     public List<ComicDTO> getComicPopular(int quality) throws ParseException {
-        String startDate = DateUtils.fromDateToString(new Date(), TimeZone.getDefault());
-        String endDate = DateUtils.addDay(startDate, -7);
+        String startDate = DateServiceUtils.fromDateToString(new Date(), TimeZone.getDefault());
+        String endDate = DateServiceUtils.addDay(startDate, -7);
         List<TopComic> topComicViews = comicAnalysisRepo.getComicAnalysisByView(startDate, endDate, quality);
         List<Comic> comics = topComicViews.stream().map(TopComic::getComic).toList();
         return comics.stream().map(AutoComicMapper.MAPPER::mapToComicDto).toList();

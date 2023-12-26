@@ -1,16 +1,14 @@
 package com.sky.tv.comics.utils;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import org.springframework.cglib.core.Local;
 
-public class DateUtils {
-  private static final String DATE_FORMAT = "yyyy-MM-dd'T' HH:mm:ss";
+public class DateServiceUtils {
+  private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
   public static Date fromStringToDate(String dateStr, TimeZone timeZone) throws ParseException {
      final DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
      dateFormat.setTimeZone(timeZone);
