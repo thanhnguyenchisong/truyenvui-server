@@ -57,7 +57,7 @@ public class ComicController {
   )
   @ApiResponse(
       responseCode = "201",
-      description = "HTTP Status 200 CREATED"
+      description = "HTTP Status 201 CREATED"
   )
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> create(@RequestBody @Valid List<ComicDTO> comicDTOs) {

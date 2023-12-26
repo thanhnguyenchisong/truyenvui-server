@@ -4,6 +4,8 @@ import com.sky.tv.comics.constant.ResponseDefault;
 import com.sky.tv.comics.dto.ChapterDTO;
 import com.sky.tv.comics.exception.ComicServiceBusinessException;
 import com.sky.tv.comics.service.ChapterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.ws.rs.QueryParam;
 import java.util.List;
 import java.util.UUID;
@@ -25,19 +27,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChapterController {
     private final ChapterService chapterService;
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ChapterDTO>> get(@QueryParam(value = "comic.id") UUID comicID) {
-        return ResponseEntity.ok(chapterService.getAll(comicID));
+    @Operation(
+        summary = "Get Chapter REST API",
+        description = "Get Chapter REST API by ID"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ChapterDTO>> get(@QueryParam(value = "comic.id") UUID chapterID) {
+        return ResponseEntity.ok(chapterService.getAll(chapterID));
     }
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDefault> create(@QueryParam(value = "comic.id") UUID comicID, @RequestBody List<ChapterDTO> chapterDTOs) {
+    @Operation(
+        summary = "Create Chapters REST API",
+        description = "Create Chapters REST API"
+    )
+    @ApiResponse(
+        responseCode = "201",
+        description = "HTTP Status 201 CREATED"
+    )
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDefault> create(@QueryParam(value = "comic.id") UUID chapterID, @RequestBody List<ChapterDTO> chapterDTOs) {
         chapterService.create(chapterDTOs);
         return ResponseEntity.ok(ResponseDefault.CREATED);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDefault> update(@QueryParam(value = "comic.id") UUID comicID, @RequestBody List<ChapterDTO> chapterDTOs)
+    @Operation(
+        summary = "Update Chapters REST API",
+        description = "Update Chapters REST API"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDefault> update(@QueryParam(value = "comic.id") UUID chapterID, @RequestBody List<ChapterDTO> chapterDTOs)
         throws ComicServiceBusinessException {
         chapterService.update(chapterDTOs);
         return ResponseEntity.ok(ResponseDefault.UPDATED);
