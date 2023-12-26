@@ -28,7 +28,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         )
     ),
     externalDocs = @ExternalDocumentation(
-        description = "Comic Management is one microservice in the big group of truyenvui project, ",
+        description = "Comic Service is one microservice in the big group of truyenvui project, ",
         url = "Unknown"
     )
 )
