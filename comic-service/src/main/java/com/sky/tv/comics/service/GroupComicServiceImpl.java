@@ -18,11 +18,13 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class GroupComicServiceImpl implements GroupComicService {
 
   private final GroupComicRepo groupComicRepo;
@@ -57,7 +59,9 @@ public class GroupComicServiceImpl implements GroupComicService {
     Set<String> names = groupComicDTOs.stream().map(GroupComicDTO::getName)
         .collect(Collectors.toSet());
     List<GroupComic> groupComics = groupComicRepo.findAllById(names);
-    validator.validate(new HashSet<>(groupComics));
+    validator.validate(
+        groupComics::isEmpty,
+        ValidationMessageEnum.EXIST.getMessage());
   }
 
   private Map<String, Category> getRelation(List<GroupComicDTO> groupComicDTOs) {

@@ -11,6 +11,6 @@ public class CrudBusinessValidator extends Validator {
     }
 
     public <E> void validate(Set<E> entities) {
-        validate(() ->  !entities.isEmpty(), "Objects exist");
+        validate(entities::isEmpty, "Objects exist");
     }
 }

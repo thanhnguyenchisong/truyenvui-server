@@ -28,9 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public List<CategoryDTO> getAll() {
     List<Category> categories = categoryRepo.findAll();
-    return categories.stream()
-        .map(AutoCategoryMapper.MAPPER::toDTO)
-        .toList();
+    return categories.stream().map(AutoCategoryMapper.MAPPER::toDTO).toList();
   }
 
   @Override
@@ -46,8 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void create(List<CategoryDTO> categoryDTOs) {
-    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity)
-        .toList();
+    Set<String> categoryIDs = categoryDTOs.stream().map(CategoryDTO::getName).collect(Collectors.toSet());
+    Set<Category> existingCategory = new HashSet<>(categoryRepo.findAllById(categoryIDs));
+    validator.validate(existingCategory::isEmpty, ValidationMessageEnum.EXIST.getMessage());
+
+    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
     categoryRepo.saveAll(categories);
   }
 
@@ -59,20 +60,11 @@ public class CategoryServiceImpl implements CategoryService {
    */
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws BusinessException {
-    Map<String, CategoryDTO> mapCategoryDTO = categoryDTOs
-        .stream()
-        .collect(Collectors.toMap(CategoryDTO::getName, Function.identity()));
-    Set<Category> categoriesExist = new HashSet<>(
-        categoryRepo.findAllById(mapCategoryDTO.keySet()));
-    validator.validate(
-        () -> mapCategoryDTO.size() == categoriesExist.size(),
-        ValidationMessageEnum.NOT_EXIST.getMessage()
-    );
-    List<Category> categories = categoriesExist.stream().map(
-        category -> AutoCategoryMapper.MAPPER.toEntity(
-            mapCategoryDTO.get(category.getName()), category
-        )
-    ).toList();
+    Map<String, CategoryDTO> mapCategoryDTO = categoryDTOs.stream().collect(Collectors.toMap(CategoryDTO::getName, Function.identity()));
+    Set<Category> categoriesExist = new HashSet<>(categoryRepo.findAllById(mapCategoryDTO.keySet()));
+    validator.validate(() -> mapCategoryDTO.size() == categoriesExist.size(), ValidationMessageEnum.NOT_EXIST.getMessage());
+    List<Category> categories = categoriesExist.stream()
+        .map(category -> AutoCategoryMapper.MAPPER.toEntity(mapCategoryDTO.get(category.getName()), category)).toList();
     categoryRepo.saveAll(categories);
   }
 }
