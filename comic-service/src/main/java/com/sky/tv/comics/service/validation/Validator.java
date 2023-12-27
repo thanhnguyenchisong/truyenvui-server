@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public abstract class Validator {
 
-    protected void validate(BooleanSupplier validator, String message) {
+    public void validate(BooleanSupplier validator, String message) {
         if (!validator.getAsBoolean()) {
             log.error(message);
             throw new BusinessException(message);

@@ -1,21 +1,30 @@
 package com.sky.tv.comics.service;
 
+import com.sky.tv.comics.constant.ValidationMessageEnum;
 import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.mapper.AutoCategoryMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
+import com.sky.tv.comics.service.validation.CrudBusinessValidator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-  @Autowired
-  private CategoryRepo categoryRepo;
+  private final CategoryRepo categoryRepo;
+  private final CrudBusinessValidator validator;
 
   @Override
   public List<CategoryDTO> getAll() {
@@ -37,21 +46,33 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void create(List<CategoryDTO> categoryDTOs) {
-    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
+    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity)
+        .toList();
     categoryRepo.saveAll(categories);
   }
 
   /**
-   * Update comics
-   * Note: No support update relationship with other objects.
+   * Update comics Note: No support update relationship with other objects.
+   *
    * @param categoryDTOs DTO
    * @throws BusinessException Catch the not found the entity from DTO
    */
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws BusinessException {
-    List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
-    List<Category> resultFromDB = categoryRepo.findAllById(categories.stream().map(Category::getName).toList());
-    if(resultFromDB.size() != categories.size()) throw new BusinessException("Can't found out ids in DB to update, please recheck");
+    Map<String, CategoryDTO> mapCategoryDTO = categoryDTOs
+        .stream()
+        .collect(Collectors.toMap(CategoryDTO::getName, Function.identity()));
+    Set<Category> categoriesExist = new HashSet<>(
+        categoryRepo.findAllById(mapCategoryDTO.keySet()));
+    validator.validate(
+        () -> mapCategoryDTO.size() == categoriesExist.size(),
+        ValidationMessageEnum.EXIST.getMessage()
+    );
+    List<Category> categories = categoriesExist.stream().map(
+            category -> AutoCategoryMapper.MAPPER.toEntity(
+                mapCategoryDTO.get(category.getName()), category
+            )
+        ).toList();
     categoryRepo.saveAll(categories);
   }
 }

@@ -5,7 +5,7 @@ import com.sky.tv.comics.entity.ProcessEnum;
 import com.sky.tv.comics.entity.SourceEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import java.util.List;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -49,5 +49,5 @@ public class ComicDTO extends CSBaseDTO {
 
   private SourceEnum source;
   
-  private List<String> categoryIDs;
+  private Set<String> categoryIDs;
 }

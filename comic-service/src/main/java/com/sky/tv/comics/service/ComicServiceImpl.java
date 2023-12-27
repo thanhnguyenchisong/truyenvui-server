@@ -1,6 +1,9 @@
 package com.sky.tv.comics.service;
 
+import com.sky.tv.comics.constant.ValidationMessageEnum;
+import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.dto.ComicDTO;
+import com.sky.tv.comics.dto.GroupComicDTO;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
@@ -16,6 +19,7 @@ import com.sky.tv.comics.repository.ComicAnalysisRepo;
 import com.sky.tv.comics.repository.ComicRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
 import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
+import com.sky.tv.comics.service.validation.CrudBusinessValidator;
 import com.sky.tv.comics.utils.DateServiceUtils;
 import jakarta.validation.Valid;
 import java.text.ParseException;
@@ -42,15 +46,11 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
     public static final String ALL = "ALL";
 
     private final ComicAnalysisRepo comicAnalysisRepo;
-
     private final ComicRepo comicRepo;
-
     private final GroupComicRepo groupComicRepo;
-
     private final CategoryRepo categoryRepo;
-
+    private final CrudBusinessValidator validator;
     private final WebClient webClient;
-
     private final EmployeeFeignClient employeeFeignClient;
 
     @Override
@@ -65,32 +65,55 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
     }
 
     @Override
-    public void create(@Valid List<ComicDTO> comicDTOs) {
-        Set<String> categoryIDs = new HashSet<>();
-        for(ComicDTO comicDTO : comicDTOs) {
-            categoryIDs.addAll(comicDTO.getCategoryIDs());
-        }
-        Map<String, Category> map = categoryRepo.findAllById(categoryIDs).stream().collect(Collectors.toMap(Category::getName, Function.identity()));
-        List<Comic> comics = comicDTOs.stream().map(dto -> {
-            Comic comic = AutoComicMapper.MAPPER.toEntity(dto);
-            List<String> categoriesIDs = dto.getCategoryIDs();
-            Set<Category> categories = categoriesIDs.stream().map(map::get).collect(Collectors.toSet());
-            comic.setCategories(categories);
-            return comic;
-        }).toList();
+    public void create(List<ComicDTO> comicDTOs) {
+        Map<String, Category> map = getRelation(comicDTOs);
+        Set<Comic> comics = getEntity(comicDTOs, map);
         comicRepo.saveAll(comics);
     }
 
-    @Override
-    public void update(@Valid List<ComicDTO> comicDTOs) throws BusinessException {
-        Map<UUID, ComicDTO> mapDTOs = comicDTOs.stream().collect(Collectors.toMap(ComicDTO::getId,
-            Function.identity()));
-        List<Comic> existingComics = comicRepo.findAllById(mapDTOs.keySet());
-        if (existingComics.size() != mapDTOs.size()) {
-            throw new BusinessException("Can't find out the entity with your DTOs");
+    private Map<String, Category> getRelation(List<ComicDTO> comicDTOs) {
+        Set<String> relationIDs = new HashSet<>();
+        for(ComicDTO groupComicDTO : comicDTOs) {
+            relationIDs.addAll(groupComicDTO.getCategoryIDs());
         }
-        List<Comic> comics = existingComics.stream().map(comic -> AutoComicMapper.MAPPER.toEntity(mapDTOs.get(comic.getId()), comic)).toList();
+        Set<Category> categories =  new HashSet<>(categoryRepo.findAllById(relationIDs));
+        validator.validate(() -> relationIDs.size() == categories.size(), "Can't find out Category relation object");
+        return categories.stream().collect(Collectors.toMap(Category::getName, Function.identity()));
+    }
 
+    private Set<Comic> getEntity(List<ComicDTO> comicDTOs, Map<String, Category> map) {
+        return comicDTOs.stream().map(dto -> {
+            Comic comic = AutoComicMapper.MAPPER.toEntity(dto);
+            Set<String> categoriesIDs = dto.getCategoryIDs();
+            Set<Category> categories = categoriesIDs.stream().map(map::get).collect(Collectors.toSet());
+            comic.setCategories(categories);
+            return comic;
+        }).collect(Collectors.toSet());
+    }
+
+    /**
+     * Support category relation
+     * @param comicDTOs
+     * @throws BusinessException
+     */
+    @Override
+    public void update(List<ComicDTO> comicDTOs) throws BusinessException {
+        Map<UUID, ComicDTO> comicDTOMap = comicDTOs.stream().collect(
+            Collectors.toMap(ComicDTO::getId, Function.identity())
+        );
+        Set<Comic> existingComics = new HashSet<>(comicRepo.findAllById(comicDTOMap.keySet()));
+        validator.validate(
+            () -> comicDTOMap.keySet().size() == existingComics.size(),
+            ValidationMessageEnum.NOT_EXIST.getMessage()
+        );
+        Map<String, Category> map = getRelation(comicDTOs);
+        Set<Comic> comics = existingComics.stream().map(comic -> {
+            ComicDTO comicDTO = comicDTOMap.get(comic.getId());
+            comic = AutoComicMapper.MAPPER.toEntity(comicDTOMap.get(comic.getId()), comic);
+            Set<Category> categories = comicDTO.getCategoryIDs().stream().map(map::get).collect(Collectors.toSet());
+            comic.setCategories(categories);
+            return comic;
+        }).collect(Collectors.toSet());
         comicRepo.saveAll(comics);
     }
 
