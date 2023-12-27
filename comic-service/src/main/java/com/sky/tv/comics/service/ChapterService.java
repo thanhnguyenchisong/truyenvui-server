@@ -14,5 +14,5 @@ public interface ChapterService extends BaseService<ChapterDTO, UUID> {
    * @return
    * @throws BusinessException
    */
-  List<ChapterDTO> getAll(UUID comicID);
+  List<ChapterDTO> getAllByComic(UUID comicID);
 }

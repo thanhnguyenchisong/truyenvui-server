@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +40,21 @@ public class ComicController {
   private final ComicService comicService;
 
   @Operation(
+      summary = "Get Comics REST API by ID",
+      description = "Get Comics REST API by ID"
+  )
+  @ApiResponse(
+      responseCode = "200",
+      description = "HTTP Status 200 OK"
+  )
+  @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ComicDTO> get(@PathVariable UUID id) {
+    return ResponseEntity.ok(comicService.get(id));
+  }
+
+  @Operation(
       summary = "Get Comics REST API by IDs",
-      description = "Get Comics REST API by IDs from Database"
+      description = "Get Comics REST API by IDs"
   )
   @ApiResponse(
       responseCode = "200",
@@ -48,7 +62,7 @@ public class ComicController {
   )
   @PostMapping(value = "/batch", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<ComicDTO>> get(@RequestBody List<UUID> ids) {
-    return ResponseEntity.status(HttpStatus.OK).body(comicService.get(ids));
+    return ResponseEntity.ok(comicService.get(ids));
   }
 
   @Operation(

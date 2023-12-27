@@ -29,6 +29,19 @@ public class ChapterController {
     private final ChapterService chapterService;
 
     @Operation(
+        summary = "Get Chapter REST API by Comic ID",
+        description = "Get Chapter REST API by Comic ID"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ChapterDTO>> getAllByComicID(@QueryParam(value = "comic_id") UUID comicID) {
+        return ResponseEntity.ok(chapterService.getAllByComic(comicID));
+    }
+
+    @Operation(
         summary = "Get Chapter REST API by ID",
         description = "Get Chapter REST API by ID"
     )
@@ -36,9 +49,22 @@ public class ChapterController {
         responseCode = "200",
         description = "HTTP Status 200 OK"
     )
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ChapterDTO>> get(@PathVariable(value = "id") UUID chapterID) {
-        return ResponseEntity.ok(chapterService.getAll(chapterID));
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ChapterDTO> get(@PathVariable UUID id) {
+        return ResponseEntity.ok(chapterService.get(id));
+    }
+
+    @Operation(
+        summary = "Get Chapter REST API by IDs",
+        description = "Get Chapter REST API by IDs"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @PostMapping(value = "/batch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ChapterDTO>> get(@RequestBody List<UUID> ids) {
+        return ResponseEntity.ok(chapterService.get(ids));
     }
 
     @Operation(
@@ -50,7 +76,7 @@ public class ChapterController {
         description = "HTTP Status 201 CREATED"
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDefault> create(@QueryParam(value = "comic.id") UUID chapterID, @RequestBody List<ChapterDTO> chapterDTOs) {
+    public ResponseEntity<ResponseDefault> create(@RequestBody List<ChapterDTO> chapterDTOs) {
         chapterService.create(chapterDTOs);
         return ResponseEntity.ok(ResponseDefault.CREATED);
     }
@@ -64,7 +90,7 @@ public class ChapterController {
         description = "HTTP Status 200 OK"
     )
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseDefault> update(@QueryParam(value = "comic.id") UUID chapterID, @RequestBody List<ChapterDTO> chapterDTOs)
+    public ResponseEntity<ResponseDefault> update(@RequestBody List<ChapterDTO> chapterDTOs)
         throws BusinessException {
         chapterService.update(chapterDTOs);
         return ResponseEntity.ok(ResponseDefault.UPDATED);

@@ -30,7 +30,7 @@ public class CategoryController {
 
     @Operation(
         summary = "Get all Category REST API",
-        description = "Get all Category"
+        description = "Get all Category REST API"
     )
     @ApiResponse(
         responseCode = "200",
@@ -50,8 +50,21 @@ public class CategoryController {
         description = "HTTP Status 200 OK"
     )
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CategoryDTO>> get(@PathVariable UUID id) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<CategoryDTO> get(@PathVariable String id) {
+        return ResponseEntity.ok(categoryService.get(id));
+    }
+
+    @Operation(
+        summary = "Get Category REST API by IDs",
+        description = "Get Category REST API by IDs"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @PostMapping(value = "/batch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CategoryDTO>> get(@RequestBody List<String> ids) {
+        return ResponseEntity.ok(categoryService.get(ids));
     }
 
     @Operation(

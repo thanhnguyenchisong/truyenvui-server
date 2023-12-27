@@ -29,7 +29,7 @@ public class ChapterServiceImpl implements ChapterService {
   private final CrudBusinessValidator validator;
 
   @Override
-  public List<ChapterDTO> getAll(UUID comicID) {
+  public List<ChapterDTO> getAllByComic(UUID comicID) {
     Comic comic = comicRepo.findById(comicID).orElseThrow(
         () -> new ResourceNotFoundException("Comic", "id", comicID.toString())
     );

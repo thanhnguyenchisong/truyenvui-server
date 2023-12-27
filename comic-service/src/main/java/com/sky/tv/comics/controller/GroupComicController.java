@@ -1,13 +1,12 @@
 package com.sky.tv.comics.controller;
 
-import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.GroupComicDTO;
+import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.service.GroupComicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,8 +49,21 @@ public class GroupComicController {
         description = "HTTP Status 200 OK"
     )
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<GroupComicDTO>> get(@PathVariable UUID id) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<GroupComicDTO> get(@PathVariable String id) {
+        return ResponseEntity.ok(groupComicService.get(id));
+    }
+
+    @Operation(
+        summary = "Get Group REST API by IDs",
+        description = "Get Group REST API by IDs"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "HTTP Status 200 OK"
+    )
+    @PostMapping(value = "/batch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GroupComicDTO>> get(@RequestBody List<String> ids) {
+        return ResponseEntity.ok(groupComicService.get(ids));
     }
 
     @Operation(
