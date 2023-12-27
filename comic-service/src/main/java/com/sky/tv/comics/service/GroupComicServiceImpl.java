@@ -1,12 +1,10 @@
 package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.constant.ValidationMessageEnum;
-import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.GroupComicDTO;
 import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.GroupComic;
 import com.sky.tv.comics.exception.BusinessException;
-import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.mapper.AutoGroupComicMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
@@ -16,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -77,8 +74,8 @@ public class GroupComicServiceImpl implements GroupComicService {
   /**
    * Support category
    *
-   * @param groupComicDTOs
-   * @throws BusinessException
+   * @param groupComicDTOs group comic DTO
+   * @throws BusinessException exception
    */
   @Override
   public void update(List<GroupComicDTO> groupComicDTOs) throws BusinessException {

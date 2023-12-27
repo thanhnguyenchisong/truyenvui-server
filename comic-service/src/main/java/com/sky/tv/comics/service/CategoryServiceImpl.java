@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -66,13 +65,13 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepo.findAllById(mapCategoryDTO.keySet()));
     validator.validate(
         () -> mapCategoryDTO.size() == categoriesExist.size(),
-        ValidationMessageEnum.EXIST.getMessage()
+        ValidationMessageEnum.NOT_EXIST.getMessage()
     );
     List<Category> categories = categoriesExist.stream().map(
-            category -> AutoCategoryMapper.MAPPER.toEntity(
-                mapCategoryDTO.get(category.getName()), category
-            )
-        ).toList();
+        category -> AutoCategoryMapper.MAPPER.toEntity(
+            mapCategoryDTO.get(category.getName()), category
+        )
+    ).toList();
     categoryRepo.saveAll(categories);
   }
 }

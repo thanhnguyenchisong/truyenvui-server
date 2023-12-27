@@ -3,10 +3,9 @@ package com.sky.tv.comics.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import java.util.Date;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @Data
@@ -19,5 +18,10 @@ public class BaseEntity {
   @PrePersist
   public void prePersist() {
     if(createTime == null) createTime = new Date();
+  }
+
+  @PreUpdate
+  public void preUpdate() {
+    updateTime = new Date();
   }
 }
