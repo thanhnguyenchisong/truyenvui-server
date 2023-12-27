@@ -2,7 +2,7 @@ package com.sky.tv.comics.controller;
 
 import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.GroupComicDTO;
-import com.sky.tv.comics.exception.ComicServiceBusinessException;
+import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.service.GroupComicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -64,7 +64,7 @@ public class GroupComicController {
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDefault> create(@RequestBody List<GroupComicDTO> groupComicDTOs)
-        throws ComicServiceBusinessException {
+        throws BusinessException {
         groupComicService.create(groupComicDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDefault.CREATED);
     }
@@ -79,7 +79,7 @@ public class GroupComicController {
     )
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDefault> update(@RequestBody List<GroupComicDTO> groupComicDTOs)
-        throws ComicServiceBusinessException {
+        throws BusinessException {
         groupComicService.update(groupComicDTOs);
         return ResponseEntity.ok(ResponseDefault.UPDATED);
     }

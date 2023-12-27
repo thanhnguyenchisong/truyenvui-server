@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import java.util.Set;
@@ -36,7 +38,11 @@ public class Comic extends CSBaseEntity {
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Chapter> chapters;
 
-  @ManyToMany(mappedBy = "comics", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "r_comic_category",
+      joinColumns = @JoinColumn(name = "r_comic"),
+      inverseJoinColumns = @JoinColumn(name = "r_category"))
   private Set<Category> categories;
 
   @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

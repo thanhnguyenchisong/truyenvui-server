@@ -4,7 +4,7 @@ import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.response.BundlePagingResponse;
-import com.sky.tv.comics.exception.ComicServiceBusinessException;
+import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.service.ComicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -75,7 +75,7 @@ public class ComicController {
   )
   @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseDefault> update(@RequestBody @Valid List<ComicDTO> comicDTOs)
-      throws ComicServiceBusinessException {
+      throws BusinessException {
     comicService.update(comicDTOs);
     return ResponseEntity.status(HttpStatus.OK).body(ResponseDefault.UPDATED);
   }

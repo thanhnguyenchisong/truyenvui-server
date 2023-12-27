@@ -2,7 +2,7 @@ package com.sky.tv.comics.service;
 
 import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.entity.Category;
-import com.sky.tv.comics.exception.ComicServiceBusinessException;
+import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.mapper.AutoCategoryMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
 import java.util.List;
@@ -45,13 +45,13 @@ public class CategoryServiceImpl implements CategoryService {
    * Update comics
    * Note: No support update relationship with other objects.
    * @param categoryDTOs DTO
-   * @throws ComicServiceBusinessException Catch the not found the entity from DTO
+   * @throws BusinessException Catch the not found the entity from DTO
    */
   @Override
-  public void update(List<CategoryDTO> categoryDTOs) throws ComicServiceBusinessException {
+  public void update(List<CategoryDTO> categoryDTOs) throws BusinessException {
     List<Category> categories = categoryDTOs.stream().map(AutoCategoryMapper.MAPPER::toEntity).toList();
     List<Category> resultFromDB = categoryRepo.findAllById(categories.stream().map(Category::getName).toList());
-    if(resultFromDB.size() != categories.size()) throw new ComicServiceBusinessException("Can't found out ids in DB to update, please recheck");
+    if(resultFromDB.size() != categories.size()) throw new BusinessException("Can't found out ids in DB to update, please recheck");
     categoryRepo.saveAll(categories);
   }
 }

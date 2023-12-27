@@ -2,7 +2,7 @@ package com.sky.tv.comics.controller;
 
 import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.ChapterDTO;
-import com.sky.tv.comics.exception.ComicServiceBusinessException;
+import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.service.ChapterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -65,7 +65,7 @@ public class ChapterController {
     )
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDefault> update(@QueryParam(value = "comic.id") UUID chapterID, @RequestBody List<ChapterDTO> chapterDTOs)
-        throws ComicServiceBusinessException {
+        throws BusinessException {
         chapterService.update(chapterDTOs);
         return ResponseEntity.ok(ResponseDefault.UPDATED);
     }

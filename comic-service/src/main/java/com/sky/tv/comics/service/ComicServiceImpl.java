@@ -1,6 +1,5 @@
 package com.sky.tv.comics.service;
 
-import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.dto.ComicDTO;
 import com.sky.tv.comics.dto.request.GetComicPaging;
 import com.sky.tv.comics.dto.request.GetTypeDTO;
@@ -9,7 +8,7 @@ import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.Comic;
 import com.sky.tv.comics.entity.GroupComic;
 import com.sky.tv.comics.entity.custom.TopComic;
-import com.sky.tv.comics.exception.ComicServiceBusinessException;
+import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoComicMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
@@ -71,21 +70,24 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
         for(ComicDTO comicDTO : comicDTOs) {
             categoryIDs.addAll(comicDTO.getCategoryIDs());
         }
-        Map<String, Category> map =
-            categoryRepo.findAllById(categoryIDs).stream().collect(Collectors.toMap(Category::getName,
-                Function.identity()));
-        //TODO add the category to comic
-        List<Comic> comics = comicDTOs.stream().map(AutoComicMapper.MAPPER::toEntity).toList();
+        Map<String, Category> map = categoryRepo.findAllById(categoryIDs).stream().collect(Collectors.toMap(Category::getName, Function.identity()));
+        List<Comic> comics = comicDTOs.stream().map(dto -> {
+            Comic comic = AutoComicMapper.MAPPER.toEntity(dto);
+            List<String> categoriesIDs = dto.getCategoryIDs();
+            Set<Category> categories = categoriesIDs.stream().map(map::get).collect(Collectors.toSet());
+            comic.setCategories(categories);
+            return comic;
+        }).toList();
         comicRepo.saveAll(comics);
     }
 
     @Override
-    public void update(@Valid List<ComicDTO> comicDTOs) throws ComicServiceBusinessException {
+    public void update(@Valid List<ComicDTO> comicDTOs) throws BusinessException {
         Map<UUID, ComicDTO> mapDTOs = comicDTOs.stream().collect(Collectors.toMap(ComicDTO::getId,
             Function.identity()));
         List<Comic> existingComics = comicRepo.findAllById(mapDTOs.keySet());
         if (existingComics.size() != mapDTOs.size()) {
-            throw new ComicServiceBusinessException("Can't find out the entity with your DTOs");
+            throw new BusinessException("Can't find out the entity with your DTOs");
         }
         List<Comic> comics = existingComics.stream().map(comic -> AutoComicMapper.MAPPER.toEntity(mapDTOs.get(comic.getId()), comic)).toList();
 
