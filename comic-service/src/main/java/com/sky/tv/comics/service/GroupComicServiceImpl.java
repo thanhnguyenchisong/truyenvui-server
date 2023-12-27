@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@Transactional
 public class GroupComicServiceImpl implements GroupComicService {
 
   private final GroupComicRepo groupComicRepo;
