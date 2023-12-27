@@ -16,7 +16,6 @@ import com.sky.tv.comics.repository.CategoryRepo;
 import com.sky.tv.comics.repository.ComicAnalysisRepo;
 import com.sky.tv.comics.repository.ComicRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
-import com.sky.tv.comics.service.feignclient.EmployeeFeignClient;
 import com.sky.tv.comics.service.validation.CrudBusinessValidator;
 import com.sky.tv.comics.utils.DateServiceUtils;
 import java.text.ParseException;
@@ -34,11 +33,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @AllArgsConstructor
 @Service
-public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
+public class ComicServiceImpl implements ComicService {
 
   public static final String ALL = "ALL";
 
@@ -47,8 +45,6 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
   private final GroupComicRepo groupComicRepo;
   private final CategoryRepo categoryRepo;
   private final CrudBusinessValidator validator;
-  //private final WebClient webClient;
-  //private final EmployeeFeignClient employeeFeignClient;
 
   @Override
   public ComicDTO get(UUID id) {
@@ -56,9 +52,9 @@ public class ComicServiceImpl implements ComicService, BaseService<ComicDTO> {
     return AutoComicMapper.MAPPER.toDTO(comic);
   }
 
+  @Override
   public List<ComicDTO> get(List<UUID> ids) {
-    List<Comic> comics = comicRepo.findAllById(ids);
-    return comics.stream().map(AutoComicMapper.MAPPER::toDTO).toList();
+    return comicRepo.findAllById(ids).stream().map(AutoComicMapper.MAPPER::toDTO).toList();
   }
 
   @Override

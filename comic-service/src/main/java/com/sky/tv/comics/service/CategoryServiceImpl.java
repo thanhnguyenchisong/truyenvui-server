@@ -4,6 +4,7 @@ import com.sky.tv.comics.constant.ValidationMessageEnum;
 import com.sky.tv.comics.dto.CategoryDTO;
 import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.exception.BusinessException;
+import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoCategoryMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
 import com.sky.tv.comics.service.validation.CrudBusinessValidator;
@@ -11,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -34,13 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public CategoryDTO get(UUID id) {
-    return null;
+  public CategoryDTO get(String id) {
+    Category category = categoryRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
+    return AutoCategoryMapper.MAPPER.toDTO(category);
   }
 
   @Override
-  public List<CategoryDTO> get(List<UUID> ids) {
-    return null;
+  public List<CategoryDTO> get(List<String> ids) {
+    return categoryRepo.findAllById(ids).stream().map(AutoCategoryMapper.MAPPER::toDTO).toList();
   }
 
   @Override

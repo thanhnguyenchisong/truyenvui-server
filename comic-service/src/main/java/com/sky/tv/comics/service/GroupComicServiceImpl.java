@@ -5,6 +5,7 @@ import com.sky.tv.comics.dto.GroupComicDTO;
 import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.GroupComic;
 import com.sky.tv.comics.exception.BusinessException;
+import com.sky.tv.comics.exception.ResourceNotFoundException;
 import com.sky.tv.comics.mapper.AutoGroupComicMapper;
 import com.sky.tv.comics.repository.CategoryRepo;
 import com.sky.tv.comics.repository.GroupComicRepo;
@@ -27,11 +28,22 @@ public class GroupComicServiceImpl implements GroupComicService {
 
   private final GroupComicRepo groupComicRepo;
   private final CategoryRepo categoryRepo;
-  private final CrudBusinessValidator crudValidator;
+  private final CrudBusinessValidator validator;
 
   @Override
   public List<GroupComicDTO> getAll() {
     return groupComicRepo.findAll().stream().map(AutoGroupComicMapper.MAPPER::toDTO).toList();
+  }
+
+  @Override
+  public GroupComicDTO get(String id) {
+    GroupComic groupComic = groupComicRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Group Comic", "id", id));
+    return AutoGroupComicMapper.MAPPER.toDTO(groupComic);
+  }
+
+  @Override
+  public List<GroupComicDTO> get(List<String> ids) {
+    return groupComicRepo.findAllById(ids).stream().map(AutoGroupComicMapper.MAPPER::toDTO).toList();
   }
 
   @Override
@@ -46,7 +58,7 @@ public class GroupComicServiceImpl implements GroupComicService {
     Set<String> names = groupComicDTOs.stream().map(GroupComicDTO::getName)
         .collect(Collectors.toSet());
     List<GroupComic> groupComics = groupComicRepo.findAllById(names);
-    crudValidator.validate(new HashSet<>(groupComics));
+    validator.validate(new HashSet<>(groupComics));
   }
 
   private Map<String, Category> getRelation(List<GroupComicDTO> groupComicDTOs) {
@@ -55,7 +67,7 @@ public class GroupComicServiceImpl implements GroupComicService {
       relationIDs.addAll(groupComicDTO.getCategoryIDs());
     }
     List<Category> categories = categoryRepo.findAllById(relationIDs);
-    crudValidator.validate(relationIDs, new HashSet<>(categories));
+    validator.validate(relationIDs, new HashSet<>(categories));
     return categories.stream().collect(Collectors.toMap(Category::getName, Function.identity()));
   }
 
@@ -84,7 +96,7 @@ public class GroupComicServiceImpl implements GroupComicService {
     );
     Set<String> keys = groupComicDTOMap.keySet();
     Set<GroupComic> existingGroupComics = new HashSet<>(groupComicRepo.findAllById(keys));
-    crudValidator.validate(
+    validator.validate(
         () -> keys.size() == existingGroupComics.size(),
         ValidationMessageEnum.NOT_EXIST.getMessage()
     );

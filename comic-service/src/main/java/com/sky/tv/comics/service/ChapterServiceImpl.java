@@ -37,6 +37,17 @@ public class ChapterServiceImpl implements ChapterService {
   }
 
   @Override
+  public ChapterDTO get(UUID id) {
+    Chapter chapter = chapterRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", id.toString()));
+    return AutoChapterMapper.MAPPER.toDTO(chapter);
+  }
+
+  @Override
+  public List<ChapterDTO> get(List<UUID> ids) {
+    return chapterRepo.findAllById(ids).stream().map(AutoChapterMapper.MAPPER::toDTO).toList();
+  }
+
+  @Override
   public void create(List<ChapterDTO> chapterDTOs) {
     Map<UUID, Comic> map = getRelation(chapterDTOs);
     Set<Chapter> chapters = getEntity(chapterDTOs, map);

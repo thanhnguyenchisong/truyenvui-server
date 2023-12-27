@@ -5,7 +5,7 @@ import com.sky.tv.comics.exception.BusinessException;
 import java.util.List;
 import java.util.UUID;
 
-public interface ChapterService {
+public interface ChapterService extends BaseService<ChapterDTO, UUID> {
 
   /**
    * Get all chapters by comic ID
@@ -15,8 +15,4 @@ public interface ChapterService {
    * @throws BusinessException
    */
   List<ChapterDTO> getAll(UUID comicID);
-
-  void create(List<ChapterDTO> chapterDTOs);
-
-  void update(List<ChapterDTO> chapterDTOs) throws BusinessException;
 }
