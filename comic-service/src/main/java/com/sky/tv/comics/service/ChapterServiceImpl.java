@@ -33,6 +33,7 @@ public class ChapterServiceImpl implements ChapterService {
     Comic comic = comicRepo.findById(comicID).orElseThrow(
         () -> new ResourceNotFoundException("Comic", "id", comicID.toString())
     );
+    System.out.println(comic.getChapters().size());
     return comic.getChapters().stream().map(AutoChapterMapper.MAPPER::toDTO).toList();
   }
 

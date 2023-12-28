@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "r_comic")
-public class Comic extends CSBaseEntity {
+public class Comic extends UUIDBaseEntity {
 
   @Column
   private String name;
@@ -35,7 +35,7 @@ public class Comic extends CSBaseEntity {
   @Enumerated(EnumType.STRING)
   private SourceEnum source;
 
-  @OneToMany(mappedBy = "comic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "comic", targetEntity = Chapter.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Chapter> chapters;
 
   @ManyToMany(fetch = FetchType.LAZY)

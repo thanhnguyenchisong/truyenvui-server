@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "r_chapter")
-public class Chapter extends CSBaseEntity {
+public class Chapter extends UUIDBaseEntity {
 
   private int number;
   private String name;
@@ -22,7 +22,7 @@ public class Chapter extends CSBaseEntity {
   private String avatarUrl;
   @Column(name = "photo_number")
   private int photoNumber;
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "r_comic")
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "r_comic", nullable = false)
   private Comic comic;
 }

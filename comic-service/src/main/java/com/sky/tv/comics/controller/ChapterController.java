@@ -6,7 +6,6 @@ import com.sky.tv.comics.exception.BusinessException;
 import com.sky.tv.comics.service.ChapterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.ws.rs.QueryParam;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -37,7 +37,7 @@ public class ChapterController {
         description = "HTTP Status 200 OK"
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ChapterDTO>> getAllByComicID(@QueryParam(value = "comic_id") UUID comicID) {
+    public ResponseEntity<List<ChapterDTO>> getAllByComicID(@RequestParam(value = "comicID") UUID comicID) {
         return ResponseEntity.ok(chapterService.getAllByComic(comicID));
     }
 

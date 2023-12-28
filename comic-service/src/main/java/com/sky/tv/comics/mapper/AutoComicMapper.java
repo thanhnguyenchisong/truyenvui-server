@@ -5,6 +5,7 @@ import com.sky.tv.comics.entity.Category;
 import com.sky.tv.comics.entity.Comic;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -25,7 +26,7 @@ public interface AutoComicMapper extends AutoMapper<Comic, ComicDTO> {
   ComicDTO toDTO(Comic e);
 
   @Named("categoryObjectToID")
-  static List<String> categoryObjectToID(Set<Category> categories) {
-    return categories.stream().map(Category::getName).toList();
+  static Set<String> categoryObjectToID(Set<Category> categories) {
+    return categories.stream().map(Category::getName).collect(Collectors.toSet());
   }
 }

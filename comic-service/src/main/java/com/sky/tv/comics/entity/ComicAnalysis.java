@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "r_comic_analysis")
-public class ComicAnalysis extends CSBaseEntity {
+public class ComicAnalysis extends UUIDBaseEntity {
 
   @Column(name = "number_view")
   private int numberView;
