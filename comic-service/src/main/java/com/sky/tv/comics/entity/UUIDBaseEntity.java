@@ -6,21 +6,32 @@ import jakarta.persistence.PrePersist;
 import java.util.Date;
 import java.util.UUID;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 public class UUIDBaseEntity extends BaseEntity {
     @Id
     protected UUID id;
 
     @Override
-    public boolean equals(final Object obj) {
-        boolean result;
-        result = (obj != null) && (obj.getClass() == getClass()) && (obj == this);
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31).append(getId()).toHashCode();
+    }
 
-        return result && new EqualsBuilder().append(id, ((UUIDBaseEntity) obj).getId()).isEquals();
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return new EqualsBuilder().append(getId(), ((UUIDBaseEntity) obj).getId()).isEquals();
     }
 
     @Override

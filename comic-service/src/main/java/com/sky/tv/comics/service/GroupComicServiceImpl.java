@@ -82,7 +82,7 @@ public class GroupComicServiceImpl implements GroupComicService {
       Set<String> categoryIDs = groupComicDTO.getCategoryIDs();
       Set<Category> categories = categoryIDs.stream().map(mapRelation::get)
           .collect(Collectors.toSet());
-      groupComic.setCategories(categories);
+      //groupComic.setCategories(categories);
       return groupComic;
     }).collect(Collectors.toSet());
   }
@@ -110,7 +110,7 @@ public class GroupComicServiceImpl implements GroupComicService {
       groupComic = AutoGroupComicMapper.MAPPER.toEntity(groupComicDTO, groupComic);
       Set<Category> categories =
           groupComicDTO.getCategoryIDs().stream().map(map::get).collect(Collectors.toSet());
-      groupComic.setCategories(categories);
+      //groupComic.setCategories(categories);
       return groupComic;
     }).collect(Collectors.toSet());
     groupComicRepo.saveAll(groupComics);

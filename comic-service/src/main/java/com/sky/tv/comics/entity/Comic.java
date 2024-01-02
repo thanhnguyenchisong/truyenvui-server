@@ -13,9 +13,12 @@ import jakarta.persistence.OneToMany;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity(name = "r_comic")
 public class Comic extends UUIDBaseEntity {
 
