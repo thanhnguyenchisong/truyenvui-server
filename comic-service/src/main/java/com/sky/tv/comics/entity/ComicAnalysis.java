@@ -8,13 +8,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.util.Date;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "r_comic_analysis")
-public class ComicAnalysis extends UUIDBaseEntity {
+public class ComicAnalysis extends BaseEntity<UUID> {
 
   @Column(name = "number_view")
   private int numberView;

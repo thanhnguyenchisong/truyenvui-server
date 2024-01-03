@@ -6,9 +6,7 @@ import lombok.ToString;
 
 
 @EqualsAndHashCode(callSuper = true)
-@ToString
 @Data
-public class CategoryDTO extends BaseDTO {
-  private String name;
+public class CategoryDTO extends BaseDTO<String> {
   private String description;
 }

@@ -5,5 +5,5 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepo extends JpaRepository<Category, String> {
-    List<Category> findAllByNameIn(List<String> names);
+
 }

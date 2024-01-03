@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ChapterDTO extends CSBaseDTO {
+public class ChapterDTO extends BaseDTO<UUID> {
   private UUID comicID;
   private int number;
   private String name;

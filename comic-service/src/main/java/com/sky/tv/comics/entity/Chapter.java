@@ -5,17 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @Getter
 @Setter
 @Entity(name = "r_chapter")
-public class Chapter extends UUIDBaseEntity {
+public class Chapter extends BaseEntity<UUID> {
 
   private int number;
   private String name;

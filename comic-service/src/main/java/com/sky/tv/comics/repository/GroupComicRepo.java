@@ -5,5 +5,5 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupComicRepo extends JpaRepository<GroupComic, String> {
-    List<GroupComic> findAllByNameIn(List<String> names);
+
 }

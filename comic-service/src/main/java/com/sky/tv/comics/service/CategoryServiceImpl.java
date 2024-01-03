@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public void create(List<CategoryDTO> categoryDTOs) {
-    Set<String> categoryIDs = categoryDTOs.stream().map(CategoryDTO::getName).collect(Collectors.toSet());
+    Set<String> categoryIDs = categoryDTOs.stream().map(CategoryDTO::getId).collect(Collectors.toSet());
     Set<Category> existingCategory = new HashSet<>(categoryRepo.findAllById(categoryIDs));
     validator.validate(existingCategory::isEmpty, ValidationMessageEnum.EXIST.getMessage());
 
@@ -60,11 +60,11 @@ public class CategoryServiceImpl implements CategoryService {
    */
   @Override
   public void update(List<CategoryDTO> categoryDTOs) throws BusinessException {
-    Map<String, CategoryDTO> mapCategoryDTO = categoryDTOs.stream().collect(Collectors.toMap(CategoryDTO::getName, Function.identity()));
+    Map<String, CategoryDTO> mapCategoryDTO = categoryDTOs.stream().collect(Collectors.toMap(CategoryDTO::getId, Function.identity()));
     Set<Category> categoriesExist = new HashSet<>(categoryRepo.findAllById(mapCategoryDTO.keySet()));
     validator.validate(() -> mapCategoryDTO.size() == categoriesExist.size(), ValidationMessageEnum.NOT_EXIST.getMessage());
     List<Category> categories = categoriesExist.stream()
-        .map(category -> AutoCategoryMapper.MAPPER.toEntity(mapCategoryDTO.get(category.getName()), category)).toList();
+        .map(category -> AutoCategoryMapper.MAPPER.toEntity(mapCategoryDTO.get(category.getId()), category)).toList();
     categoryRepo.saveAll(categories);
   }
 }

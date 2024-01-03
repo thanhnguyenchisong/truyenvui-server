@@ -27,6 +27,6 @@ public interface AutoComicMapper extends AutoMapper<Comic, ComicDTO> {
 
   @Named("categoryObjectToID")
   static Set<String> categoryObjectToID(Set<Category> categories) {
-    return categories.stream().map(Category::getName).collect(Collectors.toSet());
+    return categories.stream().map(Category::getId).collect(Collectors.toSet());
   }
 }

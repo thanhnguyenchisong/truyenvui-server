@@ -11,6 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import java.util.Set;
+import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity(name = "r_comic")
-public class Comic extends UUIDBaseEntity {
+public class Comic extends BaseEntity<UUID> {
 
   @Column
   private String name;

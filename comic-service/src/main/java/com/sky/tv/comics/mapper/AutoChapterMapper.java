@@ -14,4 +14,5 @@ import org.mapstruct.factory.Mappers;
 public interface AutoChapterMapper extends AutoMapper<Chapter, ChapterDTO> {
 
   AutoChapterMapper MAPPER = Mappers.getMapper(AutoChapterMapper.class);
+
 }

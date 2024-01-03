@@ -57,7 +57,7 @@ public class GroupComicServiceImpl implements GroupComicService {
   }
 
   private void validExistingObject(List<GroupComicDTO> groupComicDTOs) {
-    Set<String> names = groupComicDTOs.stream().map(GroupComicDTO::getName)
+    Set<String> names = groupComicDTOs.stream().map(GroupComicDTO::getId)
         .collect(Collectors.toSet());
     List<GroupComic> groupComics = groupComicRepo.findAllById(names);
     validator.validate(
@@ -72,7 +72,7 @@ public class GroupComicServiceImpl implements GroupComicService {
     }
     List<Category> categories = categoryRepo.findAllById(relationIDs);
     validator.validate(relationIDs, new HashSet<>(categories));
-    return categories.stream().collect(Collectors.toMap(Category::getName, Function.identity()));
+    return categories.stream().collect(Collectors.toMap(Category::getId, Function.identity()));
   }
 
   private Set<GroupComic> getGroupComics(List<GroupComicDTO> groupComicDTOs,
@@ -82,7 +82,7 @@ public class GroupComicServiceImpl implements GroupComicService {
       Set<String> categoryIDs = groupComicDTO.getCategoryIDs();
       Set<Category> categories = categoryIDs.stream().map(mapRelation::get)
           .collect(Collectors.toSet());
-      //groupComic.setCategories(categories);
+      groupComic.setCategories(categories);
       return groupComic;
     }).collect(Collectors.toSet());
   }
@@ -96,7 +96,7 @@ public class GroupComicServiceImpl implements GroupComicService {
   @Override
   public void update(List<GroupComicDTO> groupComicDTOs) throws BusinessException {
     Map<String, GroupComicDTO> groupComicDTOMap = groupComicDTOs.stream().collect(
-        Collectors.toMap(GroupComicDTO::getName, Function.identity())
+        Collectors.toMap(GroupComicDTO::getId, Function.identity())
     );
     Set<String> keys = groupComicDTOMap.keySet();
     Set<GroupComic> existingGroupComics = new HashSet<>(groupComicRepo.findAllById(keys));
@@ -106,11 +106,11 @@ public class GroupComicServiceImpl implements GroupComicService {
     );
     Map<String, Category> map = getRelation(groupComicDTOs);
     Set<GroupComic> groupComics = existingGroupComics.stream().map(groupComic -> {
-      GroupComicDTO groupComicDTO = groupComicDTOMap.get(groupComic.getName());
+      GroupComicDTO groupComicDTO = groupComicDTOMap.get(groupComic.getId());
       groupComic = AutoGroupComicMapper.MAPPER.toEntity(groupComicDTO, groupComic);
       Set<Category> categories =
           groupComicDTO.getCategoryIDs().stream().map(map::get).collect(Collectors.toSet());
-      //groupComic.setCategories(categories);
+      groupComic.setCategories(categories);
       return groupComic;
     }).collect(Collectors.toSet());
     groupComicRepo.saveAll(groupComics);
