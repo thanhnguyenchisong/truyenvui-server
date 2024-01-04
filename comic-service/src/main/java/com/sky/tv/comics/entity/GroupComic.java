@@ -19,7 +19,7 @@ public class GroupComic extends BaseEntity<String> {
   @Column(name = "description")
   private String description;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(
       name = "r_group_category",
       joinColumns = @JoinColumn(name = "r_group"),

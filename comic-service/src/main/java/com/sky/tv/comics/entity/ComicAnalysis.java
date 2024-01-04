@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "r_comic_analysis")
-public class ComicAnalysis extends BaseEntity<UUID> {
+public class ComicAnalysis extends UUIDEntity{
 
   @Column(name = "number_view")
   private int numberView;

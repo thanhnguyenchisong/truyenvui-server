@@ -38,6 +38,14 @@ public class DateServiceUtils {
     return fromDateToString(calendar.getTime(), timeZone);
   }
 
+  public static String addDay(Date date, int day, TimeZone timeZone)
+      throws ParseException {
+    Calendar calendar = Calendar.getInstance(timeZone);
+    calendar.setTime(date);
+    calendar.add(Calendar.DATE, day);
+    return fromDateToString(calendar.getTime(), timeZone);
+  }
+
   public static String addDay(String currentDate, int day) throws ParseException {
     return addDay(currentDate, day, TimeZone.getDefault());
   }

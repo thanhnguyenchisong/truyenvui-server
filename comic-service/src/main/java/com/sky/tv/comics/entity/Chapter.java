@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "r_chapter")
-public class Chapter extends BaseEntity<UUID> {
+public class Chapter extends UUIDEntity {
 
   private int number;
   private String name;

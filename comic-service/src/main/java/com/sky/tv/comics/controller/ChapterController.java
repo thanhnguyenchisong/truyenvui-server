@@ -1,5 +1,6 @@
 package com.sky.tv.comics.controller;
 
+import com.sky.tv.comics.anotation.Analysis;
 import com.sky.tv.comics.dto.response.ResponseDefault;
 import com.sky.tv.comics.dto.ChapterDTO;
 import com.sky.tv.comics.exception.BusinessException;
@@ -50,6 +51,7 @@ public class ChapterController {
         description = "HTTP Status 200 OK"
     )
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @Analysis
     public ResponseEntity<ChapterDTO> get(@PathVariable UUID id) {
         return ResponseEntity.ok(chapterService.get(id));
     }
