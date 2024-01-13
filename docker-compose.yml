@@ -11,16 +11,16 @@ services:
       - 8886:8886
     networks:
       - comic-network
-  config-server:
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
-    container_name: config-server
-    hostname: config-server
-    networks:
-      - comic-network
-    depends_on:
-      - service-registry
+#  config-server:
+#    build:
+#      context: ./config-server
+#      dockerfile: Dockerfile
+#    container_name: config-server
+#    hostname: config-server
+#    networks:
+#      - comic-network
+#    depends_on:
+#      - service-registry
   api-gateway:
     build:
       context: ./api-gateway
@@ -36,13 +36,13 @@ services:
 #  MySQL Database
   comic-service-mysqldb:
     container_name: comic-service-mysqldb
-    image: mysql
+    image: mysql:8.2.0
     volumes:
       - /data
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root,
+      MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: comicdb
     networks:
       - comic-network

@@ -62,7 +62,7 @@
 		<profile>
 			<id>local</id>
 			<properties>
-				<activatedProperties></activatedProperties>
+				<activatedProperties>local</activatedProperties>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>

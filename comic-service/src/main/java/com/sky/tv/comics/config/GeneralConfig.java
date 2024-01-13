@@ -11,16 +11,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RefreshScope //refresh if there is the refresh calling from actuator
 public class GeneralConfig {
 
-	@Value("${max.thread:10}")
-	private Integer maxThread;
+  @Value("${max.thread:10}")
+  private Integer maxThread;
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
 
-	@Bean
-	public WebClient webClient () {
-		return WebClient.builder().build();
-	}
+  @Bean
+  public WebClient webClient() {
+    return WebClient.builder().build();
+  }
 }
