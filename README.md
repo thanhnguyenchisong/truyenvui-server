@@ -161,6 +161,22 @@ then ms3 down => ms2 down => ms1 down. So ms4 down infect other microservices as
 job you can go with first one. Other case should go with a container because Zipkin server is implemented one time 
 and no need to change in future and also would like to separate Job bw 2 different teams.
 
+#### 5.1 Tracing use Micrometer and Prometheus
+From spring >= 3.0.0 they provide the Observation API 
+`Motivation` The idea we want to using a single API and have multiple benefirs our of it (metrics, 
+  tracing, logging).
+
+`Technical`
+- Choose `spring-boot-start-actuator` to add observation features
+- Add the observability related features
+  - Metrics : `io.micrometer:micrometer-registry-prometheus`
+  - Tracing: Need to pick the tracer bridge which ise a library is used to handle the life cycle of a span. We pick `Zipkin Brave` by adding `io.
+    micrometer:micrometer-tracing-bridge-brave`. For `Latency Visualization` we need to send finished sans in some format to a server. We produce 
+    a Zipkin compliant span by adding `io.zipkin.reporter2:zipkin-reporter-brave`
+  - Logs: With `Micrometer Tracing` the logs are automatically correlated (by ID in logs) so now we need to ship the logs, example we ship it to 
+    Grafana Loki by adding `com.github.loki4j:loki-logback-appender`
+- Register `ObservationHandler`, to send the state bw handler methods, you can use `Observation.Context`
+
 ### 6. Sumarize steps to create a microservice
 - Create Service by Spring boot
 - Config Database
