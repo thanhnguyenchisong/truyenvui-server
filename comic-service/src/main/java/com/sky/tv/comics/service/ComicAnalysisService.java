@@ -8,7 +8,11 @@ import java.util.UUID;
 
 public interface ComicAnalysisService {
 
-  void create(UUID comicID, Date startTime, Date endTime);
+  ComicAnalysis create(UUID comicID, Date startTime, Date endTime);
+
+  void updateViewNumber(ComicAnalysis comicAnalysis, int number);
+
+  void preJobView(UUID comicID);
 
   List<ComicAnalysis> getCAByStartDate(Date startDate);
 
