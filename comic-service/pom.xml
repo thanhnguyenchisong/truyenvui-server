@@ -70,18 +70,24 @@
       <artifactId>spring-cloud-starter-bus-amqp</artifactId>
     </dependency>
     <!--		Distribute tracing - can't use for spring ver 3.1.x will do later-->
+    <!-- provide the micrometer metrics for prometheus -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-observation</artifactId>
     </dependency>
+    <!-- Tracing bridge handle the lifecycle of span-->
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-tracing-bridge-brave</artifactId>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>io.zipkin.reporter2</groupId>
       <artifactId>zipkin-reporter-brave</artifactId>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-micrometer</artifactId>

@@ -57,4 +57,7 @@ MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=comic-service -d mysql:8.2.0
 http://localhost:8100/swagger-ui/index.html
 
 
+# Spring actuator
+http://localhost:8100/actuator
+
 
