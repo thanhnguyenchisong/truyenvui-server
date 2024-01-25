@@ -3,6 +3,10 @@
 2. Mappings
 3. Index data and bulk
 4. Define field mappings with mapping file
+
+### 1. Create
+refer to https://opensearch.org/docs/latest/quickstart/
+
 ### 2. Mappings
 Define how to store the data : example field `year` should have `date` type in mapping
 It like the you define the table with field and type before push the data to that table.
