@@ -1,0 +1,14 @@
+version: '3'
+services:
+  data-prepper:
+    container_name: data-prepper
+    image: opensearchproject/data-prepper:2.0.1
+    volumes:
+      - ./log_pipeline.yaml:/usr/share/data-prepper/pipelines/log_pipeline.yaml
+    ports:
+      - 2021:2021
+    networks:
+      - opensearch-net
+networks:
+  opensearch-net:
+    name: opensearch-net
