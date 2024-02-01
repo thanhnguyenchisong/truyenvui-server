@@ -8,6 +8,8 @@ services:
     volumes:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - ./log/:/etc/data
+    ports:
+      - 2020:2020
     networks:
       - opensearch-net
 networks:
