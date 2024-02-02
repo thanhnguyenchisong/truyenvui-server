@@ -65,10 +65,10 @@
       <artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
     <!--		End Client Config-->
-    <dependency>
+<!--    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-    </dependency>
+    </dependency>-->
     <!--		Distribute tracing - can't use for spring ver 3.1.x will do later-->
     <!-- provide the micrometer metrics for prometheus -->
     <dependency>
@@ -88,21 +88,30 @@
       <groupId>io.zipkin.reporter2</groupId>
       <artifactId>zipkin-reporter-brave</artifactId>
     </dependency>-->
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback.contrib/logback-json-classic -->
+    <dependency>
+      <groupId>ch.qos.logback.contrib</groupId>
+      <artifactId>logback-json-classic</artifactId>
+      <version>0.1.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/ch.qos.logback.contrib/logback-jackson -->
+    <dependency>
+      <groupId>ch.qos.logback.contrib</groupId>
+      <artifactId>logback-jackson</artifactId>
+      <version>0.1.5</version>
+    </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-micrometer</artifactId>
     </dependency>
-    <!--			End Distribute tracing-->
     <!-- Logging-->
-    <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
-    <!-- https://mvnrepository.com/artifact/com.sndyuk/logback-more-appenders -->
+    <!-- https://mvnrepository.com/artifact/org.fluentd/fluent-logger -->
     <dependency>
-      <groupId>com.sndyuk</groupId>
-      <artifactId>logback-more-appenders</artifactId>
-      <version>1.8.8</version>
+      <groupId>org.fluentd</groupId>
+      <artifactId>fluent-logger</artifactId>
+      <version>0.3.4</version>
     </dependency>
-
-
+    <!--			End Distribute tracing-->
     <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
     <dependency>
       <groupId>com.mysql</groupId>

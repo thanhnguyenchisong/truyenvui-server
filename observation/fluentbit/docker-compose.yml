@@ -5,13 +5,19 @@ volumes:
 services:
   fluent-bit:
     image: fluent/fluent-bit
+    container_name: fluent-bit
+    hostname: fluent-bit
     volumes:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - ./log/:/etc/data
     ports:
       - 2020:2020
+      - 2024:2024
     networks:
       - opensearch-net
+      - comic-network
 networks:
   opensearch-net:
     name: opensearch-net
+  comic-network:
+    name: comic-network

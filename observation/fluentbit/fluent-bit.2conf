@@ -1,11 +1,10 @@
 [SERVICE]
-    log_level  info
+    log_level  debug
 
 [INPUT]
-    Name        tcp
-    Listen      0.0.0.0
-    Port        2024
-    Format      json
+    Name  forward
+    Listen 0.0.0.0
+    Port   24224
 
 [OUTPUT]
     Name  opensearch
@@ -15,5 +14,5 @@
     Index truyenvui
     HTTP_User admin
     HTTP_Passwd admin
-    Type logs
+    Type cpu_metrics
     Suppress_Type_Name On

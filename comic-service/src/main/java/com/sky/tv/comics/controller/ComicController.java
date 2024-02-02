@@ -14,8 +14,11 @@ import jakarta.ws.rs.QueryParam;
 import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -132,4 +135,16 @@ public class ComicController {
   public ResponseEntity<List<BundlePagingResponse<ComicDTO>>> get(@RequestBody GetComicPaging comicPaging) {
     return ResponseEntity.status(HttpStatus.OK).body(comicService.getComicPaging(comicPaging));
   }
+
+private static final Logger logger = LoggerFactory.getLogger(ComicController.class);
+  @GetMapping(value = "test-log", produces =
+          MediaType.APPLICATION_JSON_VALUE)
+  public String log() {
+      log.info("This is info with lombl");
+      log.error("This is error with lombl");
+      logger.info("This is info");
+      logger.error("This is error");
+      return "Logged";
+  }
+
 }

@@ -4,6 +4,13 @@
 	parsers_file  parsers.conf
 
 [INPUT]
+    name cpu
+    tag  cpu.local
+
+    # Read interval (sec) Default: 1
+    interval_sec 5
+
+[INPUT]
 	name          	tail
 	tag           	*
 	path          	test.log
