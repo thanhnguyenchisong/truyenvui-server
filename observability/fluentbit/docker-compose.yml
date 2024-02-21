@@ -4,7 +4,7 @@ volumes:
   log-data:
 services:
   fluent-bit:
-    image: fluent/fluent-bit
+    image: cr.fluentbit.io/fluent/fluent-bit:2.0
     container_name: fluent-bit
     hostname: fluent-bit
     volumes:

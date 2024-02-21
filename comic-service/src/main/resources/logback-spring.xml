@@ -1,80 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS" value="./logs" />
-    <property name="spring.application.name" value="COMIC-SERVICE" />
-    <property name="pattern-color" value="%d{ISO8601} %highlight(%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]) [%blue(%t)] %yellow(%C): %msg%n%throwable" />
-    <property name="pattern" value="%d %5p [${spring.application.name},%X{traceId:-},%X{spanId:-}] [%t] %C %m%n" />
-    <property name="pattern-json" value='{"timestamp": "%d", "level": "%level", "application": "truyenvui-server", "traceId": "%X{traceid:-}", "spandId": "%X{spanid:-}", "service": "${spring.application.name}", "version": 1, "class": "%logger{40}", "logtype": "%X{logType:--}", "user": "%X{userId:--}", "requestid": "%X{traceId:--}", "msgid": "%X{messageId:--}", "msg": "%message"}%n' />
+  <property name="LOGS" value="./logs"/>
+  <property name="spring.application.name" value="COMIC-SERVICE"/>
+  <property name="pattern-color"
+    value="%d{ISO8601} %highlight(%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]) [%blue(%t)] %yellow(%C): %msg%n%throwable"/>
+  <property name="pattern" value="%d %5p [${spring.application.name},%X{traceId:-},%X{spanId:-}] [%t] %C %m%n"/>
+  <property name="pattern-short" value='{"timestamp": "%d", "level": "%level", "application": "truyenvui-server"}%n'/>
+  <property name="pattern-json"
+    value='{"timestamp": "%d", "level": "%level", "application": "truyenvui-server", "traceid": "%X{traceid:-}", "spandid": "%X{spanid:-}", "hostname": "${HOSTNAME}", "service": "${spring.application.name}", "version": 1, "thread": "%t", "class": "%logger{40}", "logtype": "%X{logType:--}", "user": "%X{userId:--}", "requestid": "%X{traceId:--}", "msgid": "%X{messageId:--}", "msg": "%message"}%n'/>
 
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>
+        ${pattern-json}
+      </Pattern>
+    </layout>
+  </appender>
 
-    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                ${pattern-color}
-            </Pattern>
-        </layout>
-        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-            <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter" />
-            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
-            <appendLineSeparator>true</appendLineSeparator>
-        </layout>
-    </appender>
+  <appender name="RollingFile"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOGS}/comic-service.log</file>
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>${pattern-json}</Pattern>
+    </encoder>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- rollover daily and when the file reaches 10 MegaBytes -->
+      <fileNamePattern>${LOGS}/archived/comic-service-%d{yyyy-MM-dd}.%i.log
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+  <logger name="com.skype" level="trace" additivity="false">
+    <appender-ref ref="RollingFile"/>
+    <appender-ref ref="Console"/>
+  </logger>
 
-    <appender name="RollingFile"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/comic-service.log</file>
-        <encoder
-                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>${pattern-json}</Pattern>
-        </encoder>
-
-        <rollingPolicy
-                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/archived/comic-service-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
-
-    <!-- LOG everything at INFO level -->
- <!--   <root level="info">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
-        <appender-ref ref="FLUENT" />
-    </root>-->
-
-    <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="com.skype" level="trace" additivity="false">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
-    </logger>
-
-    <!-- Other Logback configurations -->
-
-    <appender name="FLUENT" class="ch.qos.logback.classic.net.SocketAppender">
-        <remoteHost>127.0.0.1</remoteHost>
-        <port>2024</port>
-        <reconnectionDelay>5000</reconnectionDelay>
-     <!--   <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${pattern-json}</pattern>
-        </encoder>-->
-        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-            <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter" />
-            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
-            <appendLineSeparator>true</appendLineSeparator>
-        </layout>
-    </appender>
-
-    <!-- LOG everything at INFO level -->
-    <root level="info">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
-        <appender-ref ref="FLUENT" />
-    </root>
-
+  <appender name="LOGSTASH-SHIP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>127.0.0.1:2024</destination>
+    <addDefaultStatusListener>false</addDefaultStatusListener>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${pattern-json1}</pattern>
+    </encoder>
+    <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <pattern>
+          <pattern>{"app_name": "myapp", "app_version":"1.0.0", "hostname": "${HOSTNAME}"}</pattern>
+        </pattern>
+        <mdc/>
+        <timestamp/>
+        <message/>
+        <threadName/>
+        <logLevel/>
+        <callerData/>
+        <stackTrace>
+          <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+            <maxDepthPerThrowable>${STACK_TRACE_COUNT}</maxDepthPerThrowable>
+            <shortenedClassNameLength>${CLASS_NAME_LENGTH}</shortenedClassNameLength>
+            <rootCauseFirst>true</rootCauseFirst>
+          </throwableConverter>
+        </stackTrace>
+      </providers>
+    </encoder>-->
+  </appender>
+  <!-- LOG everything at INFO level -->
+  <root level="info">
+    <appender-ref ref="RollingFile"/>
+    <appender-ref ref="Console"/>
+    <appender-ref ref="LOGSTASH-SHIP"/>
+  </root>
 </configuration>
