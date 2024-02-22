@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="veemos-dai-artifactory" />
+      <option name="name" value="veemos-main-maven-releases" />
+      <option name="url" value="https://artifacts.i.mercedes-benz.com/artifactory/veemos-main-maven-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="itocp-dai-artifactory" />
+      <option name="name" value="itocp-maven-virtual-releases" />
+      <option name="url" value="https://artifacts.i.mercedes-benz.com/artifactory/itocp-maven-virtual-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="swt-dai-artifactory" />
+      <option name="name" value="veemos-swt-main-maven-releases" />
+      <option name="url" value="https://artifacts.i.mercedes-benz.com/artifactory/veemos-swt-main-maven-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven-eclipse-repo" />
+      <option name="name" value="maven-eclipse-repo" />
+      <option name="url" value="http://maven-eclipse.github.io/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="epdm-artifactory" />
+      <option name="name" value="epdm-maven-virtual" />
+      <option name="url" value="https://artifacts.i.mercedes-benz.com/artifactory/epdm-maven-virtual/" />
+    </remote-repository>
+  </component>
+</project>

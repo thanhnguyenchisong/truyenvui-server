@@ -1,0 +1,1 @@
+- config ssl for connection bw fluentbit and opensearch

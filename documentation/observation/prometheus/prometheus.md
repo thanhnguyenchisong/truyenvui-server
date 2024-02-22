@@ -46,6 +46,4 @@ Not only Prometheus with external server, Prometheus server also and pull metric
 - `Node Exporter` Prometheus exporter for hardware and OS metrics (metrics for machine level as CPU, disk space, I/O) as Linux
 - `VMI Exporter` Windows Management Instrumentation
 
-## Client libs - Adding to Python
 
-//TODO : set up with Java
