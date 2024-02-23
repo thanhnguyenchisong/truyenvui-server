@@ -4,56 +4,46 @@
   <property name="LOGS" value="./logs"/>
   <property name="spring.application.name" value="COMIC-SERVICE"/>
   <property name="pattern-color"
-    value="%d{ISO8601} %highlight(%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]) [%blue(%t)] %yellow(%C): %msg%n%throwable"/>
-  <property name="pattern" value="%d %5p [${spring.application.name},%X{traceId:-},%X{spanId:-}] [%t] %C %m%n"/>
+            value="%d{ISO8601} %highlight(%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]) [%blue(%t)] %yellow(%C): %msg%n%throwable"/>
+  <property name="pattern-file" value="%d %5p [${spring.application.name},%X{traceId:-},%X{spanId:-}] [%t] %C %m%n%throwable"/>
   <property name="pattern-short" value='{"timestamp": "%d", "level": "%level", "application": "truyenvui-server"}%n'/>
-  <property name="pattern-json"
-    value='{"timestamp": "%d", "level": "%level", "application": "truyenvui-server", "traceid": "%X{traceid:-}", "spandid": "%X{spanid:-}", "hostname": "${HOSTNAME}", "service": "${spring.application.name}", "version": 1, "thread": "%t", "class": "%logger{40}", "logtype": "%X{logType:--}", "user": "%X{userId:--}", "requestid": "%X{traceId:--}", "msgid": "%X{messageId:--}", "msg": "%message"}%n'/>
-
   <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-    <layout class="ch.qos.logback.classic.PatternLayout">
-      <Pattern>
-        ${pattern-json}
-      </Pattern>
-    </layout>
+    <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>${pattern-color}</Pattern>
+    </encoder>
   </appender>
 
   <appender name="RollingFile"
-    class="ch.qos.logback.core.rolling.RollingFileAppender">
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${LOGS}/comic-service.log</file>
     <encoder
-      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <Pattern>${pattern-json}</Pattern>
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>${pattern-file}</Pattern>
     </encoder>
     <rollingPolicy
-      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- rollover daily and when the file reaches 10 MegaBytes -->
       <fileNamePattern>${LOGS}/archived/comic-service-%d{yyyy-MM-dd}.%i.log
       </fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy
-        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+              class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>10MB</maxFileSize>
       </timeBasedFileNamingAndTriggeringPolicy>
     </rollingPolicy>
   </appender>
-  <logger name="com.skype" level="trace" additivity="false">
-    <appender-ref ref="RollingFile"/>
-    <appender-ref ref="Console"/>
-  </logger>
 
-  <appender name="LOGSTASH-SHIP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-    <destination>127.0.0.1:2024</destination>
-    <addDefaultStatusListener>false</addDefaultStatusListener>
-    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <pattern>${pattern-json1}</pattern>
-    </encoder>
-    <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+  <appender name="RollingFileJson"
+            class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOGS}/comic-service-json.log</file>
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
       <providers>
+        <timestamp/>
+        <logLevel/>
         <pattern>
-          <pattern>{"app_name": "myapp", "app_version":"1.0.0", "hostname": "${HOSTNAME}"}</pattern>
+          <pattern>{"application": "truyenvui-server", "service": "${spring.application.name}", "app_version":"1.0.0", "hostname": "${HOSTNAME}", "user": "%X{userId:--}", "traceid": "%X{traceid:-}", "spandid": "%X{spanid:-}", "requestid": "%X{traceId:--}" }</pattern>
         </pattern>
         <mdc/>
-        <timestamp/>
         <message/>
         <threadName/>
         <logLevel/>
@@ -66,11 +56,52 @@
           </throwableConverter>
         </stackTrace>
       </providers>
-    </encoder>-->
+    </encoder>
+    <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- rollover daily and when the file reaches 10 MegaBytes -->
+      <fileNamePattern>${LOGS}/archived/comic-service-json-%d{yyyy-MM-dd}.%i.log
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+              class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+  <logger name="com.skype" level="trace" additivity="false">
+    <appender-ref ref="RollingFile"/>
+    <appender-ref ref="Console"/>
+  </logger>
+
+  <appender name="LOGSTASH-SHIP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>127.0.0.1:2024</destination>
+    <addDefaultStatusListener>false</addDefaultStatusListener>
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <timestamp/>
+        <logLevel/>
+        <pattern>
+          <pattern>{"application": "truyenvui-server", "service": "${spring.application.name}", "app_version":"1.0.0", "hostname": "${HOSTNAME}", "user": "%X{userId:--}", "traceid": "%X{traceid:-}", "spandid": "%X{spanid:-}", "requestid": "%X{traceId:--}" }</pattern>
+        </pattern>
+        <mdc/>
+        <message/>
+        <threadName/>
+        <logLevel/>
+        <callerData/>
+        <stackTrace>
+          <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+            <maxDepthPerThrowable>${STACK_TRACE_COUNT}</maxDepthPerThrowable>
+            <shortenedClassNameLength>${CLASS_NAME_LENGTH}</shortenedClassNameLength>
+            <rootCauseFirst>true</rootCauseFirst>
+          </throwableConverter>
+        </stackTrace>
+      </providers>
+    </encoder>
   </appender>
   <!-- LOG everything at INFO level -->
   <root level="info">
     <appender-ref ref="RollingFile"/>
+    <appender-ref ref="RollingFileJson"/>
     <appender-ref ref="Console"/>
     <appender-ref ref="LOGSTASH-SHIP"/>
   </root>
